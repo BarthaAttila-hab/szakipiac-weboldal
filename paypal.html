@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Fizetés</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <nav>
-    <a href="index.html">Főoldal</a>
-    <a href="rolunk.html">Rólunk</a>
-    <a href="kapcsolat.html">Kapcsolat</a>
-    <a href="feltoltes.html">Hirdetés feltöltés</a>
-    <a href="paypal.html">Fizetés</a>
-  </nav>
-  <main>
-    <h1>PayPal fizetés</h1>
-    <p>A hirdetés díja: 990 Ft + 310 Ft jutalék</p>
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-      <input type="hidden" name="cmd" value="_xclick">
-      <input type="hidden" name="business" value="bartha.attila76@gmail.com">
-      <input type="hidden" name="item_name" value="Hirdetés feltöltés">
-      <input type="hidden" name="amount" value="1300">
-      <input type="hidden" name="currency_code" value="HUF">
-      <input type="submit" value="Fizetés PayPal-lal">
-    </form>
-  </main>
-</body>
-</html>
+<!DOCTYPE html><html><head><title>PayPal</title><link rel="stylesheet" href="style.css"></head><body>
+
+<nav style="background-color: #005288; padding: 10px;">
+  <img src="szakipiac_logo.png" alt="SzakiPiac logó" style="height: 40px; vertical-align: middle;">
+  <a href="index.html" style="margin: 10px; color: white; text-decoration: none;">Főoldal</a>
+  <a href="rolunk.html" style="margin: 10px; color: white; text-decoration: none;">Rólunk</a>
+  <a href="kapcsolat.html" style="margin: 10px; color: white; text-decoration: none;">Kapcsolat</a>
+  <a href="feltoltes.html" style="margin: 10px; color: white; text-decoration: none;">Hirdetés feltöltés</a>
+  <a href="paypal.html" style="margin: 10px; color: white; text-decoration: none;">Fizetés</a>
+</nav>
+
+<main><div class="box"><h1>PayPal fizetés</h1><p>A hirdetés díja: 990 Ft + 310 Ft jutalék</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="bartha.attila76@gmail.com">
+<input type="hidden" name="item_name" value="Hirdetés feltöltés">
+<input type="hidden" name="amount" value="1300">
+<input type="hidden" name="currency_code" value="HUF">
+<input type="submit" value="Fizetés PayPal-lal">
+</form></div></main></body></html>

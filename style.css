@@ -1,22 +1,23 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f8f8f8;
-}
-nav {
-  margin-bottom: 20px;
-}
-nav a {
-  margin-right: 15px;
-  text-decoration: none;
-  color: #0066cc;
+  margin: 0;
+  padding: 0;
+  background: #f3f3f3;
 }
 main {
+  padding: 20px;
+}
+.box {
   background: white;
   padding: 20px;
-  border-radius: 8px;
+  max-width: 600px;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 form input, form textarea {
   width: 100%;
   margin-bottom: 10px;
+  padding: 8px;
+  box-sizing: border-box;
 }
