@@ -1,21 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kapcsolat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: #e8f5e9; margin: 0; font-family: Arial, sans-serif;">
 
-<section id="kapcsolat">
-  <h2 style="color: #2ecc71;">Elérhetőségek</h2>
-  <p><strong>Cégnév:</strong> SzakiPiac.hu</p>
-  <p><strong>Telefonszám:</strong> +36 70 429 2162</p>
-  <p><strong>E-mail:</strong> <a href="mailto:bartha.attila76@gmail.com">bartha.attila76@gmail.com</a></p>
+<nav style="background-color: #2e7d32; padding: 10px;">
+  <img src="szakipiac_logo.png" alt="SzakiPiac logó" style="height: 40px; vertical-align: middle;">
+  <a href="index.html" style="margin: 10px; color: white; text-decoration: none;">Főoldal</a>
+  <a href="rolunk.html" style="margin: 10px; color: white; text-decoration: none;">Rólunk</a>
+  <a href="kapcsolat.html" style="margin: 10px; color: white; text-decoration: none;">Kapcsolat</a>
+  <a href="feltoltes.html" style="margin: 10px; color: white; text-decoration: none;">Hirdetés feltöltés</a>
+  <a href="paypal.html" style="margin: 10px; color: white; text-decoration: none;">Fizetés</a>
+</nav>
 
-  <h2 style="color: #2ecc71;">Kapcsolatfelvételi űrlap</h2>
-  <form>
-    <label for="name">Név</label><br />
-    <input type="text" id="name" name="name" /><br />
+<main>
+  <div class="box" style="background: white; max-width: 600px; margin: 30px auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <h2 style="color: #2e7d32;">Elérhetőségek</h2>
+    <p><strong>Cégnév:</strong> SzakiPiac.hu</p>
+    <p><strong>Telefonszám:</strong> +36 70 429 2162</p>
+    <p><strong>E-mail:</strong> <a href="mailto:bartha.attila76@gmail.com">bartha.attila76@gmail.com</a></p>
 
-    <label for="email">E-mail cím</label><br />
-    <input type="email" id="email" name="email" /><br />
-
-    <label for="message">Üzenet</label><br />
-    <textarea id="message" name="message"></textarea><br />
-
-    <button type="submit" style="background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Küldés</button>
-  </form>
-</section>
+    <h2 style="color: #2e7d32;">Kapcsolatfelvételi űrlap</h2>
+    <form>
+      <label>Név<br><input type="text" name="nev" style="width: 100%; padding: 8px; margin-bottom: 10px;"></label>
+      <br>
+      <label>E-mail cím<br><input type="email" name="email" style="width: 100%; padding: 8px; margin-bottom: 10px;"></label>
+      <br>
+      <label>Üzenet<br><textarea name="uzenet" rows="4" style="width: 100%; padding: 8px;"></textarea></label>
+      <br><br>
+      <button type="submit" style="background-color: #2e7d32; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Küldés</button>
+    </form>
+  </div>
+</main>
+</body>
+</html>
