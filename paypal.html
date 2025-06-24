@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fizetés</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Főoldal</a>
+    <a href="rolunk.html">Rólunk</a>
+    <a href="kapcsolat.html">Kapcsolat</a>
+    <a href="feltoltes.html">Hirdetés feltöltés</a>
+    <a href="paypal.html">Fizetés</a>
+  </nav>
+  <main>
+    <h1>PayPal fizetés</h1>
+    <p>A hirdetés díja: 990 Ft + 310 Ft jutalék</p>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="bartha.attila76@gmail.com">
+      <input type="hidden" name="item_name" value="Hirdetés feltöltés">
+      <input type="hidden" name="amount" value="1300">
+      <input type="hidden" name="currency_code" value="HUF">
+      <input type="submit" value="Fizetés PayPal-lal">
+    </form>
+  </main>
+</body>
+</html>

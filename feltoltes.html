@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Kapcsolat</title>
+  <title>Hirdetés feltöltés</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,12 +13,14 @@
     <a href="paypal.html">Fizetés</a>
   </nav>
   <main>
-    <h1>Kapcsolat</h1>
+    <h1>Hirdetés feltöltése</h1>
     <form>
-      <label>Név: <input type="text" name="nev"></label><br>
+      <label>Cím: <input type="text" name="cim"></label><br>
+      <label>Leírás:<br><textarea name="leiras"></textarea></label><br>
+      <label>Ár (Ft): <input type="number" name="ar"></label><br>
+      <label>Kép: <input type="file" name="kep"></label><br>
       <label>Email: <input type="email" name="email"></label><br>
-      <label>Üzenet:<br><textarea name="uzenet"></textarea></label><br>
-      <button type="submit">Küldés</button>
+      <button type="submit">Hirdetés küldése</button>
     </form>
   </main>
 </body>
