@@ -1,18 +1,61 @@
-<!DOCTYPE html><html><head><title>Hirdetés feltöltés</title><link rel="stylesheet" href="style.css"></head><body>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hirdetés feltöltése</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabase = supabase.createClient(
+      "https://tzmcofiuqeanftviquwp.supabase.co",
+      "public-anon-key"
+    );
 
-<nav style="background-color: #2e7d32; padding: 10px;">
-  <img src="szakipiac_logo.png" alt="SzakiPiac logó" style="height: 40px; vertical-align: middle;">
-  <a href="index.html" style="margin: 10px; color: white; text-decoration: none;">Főoldal</a>
-  <a href="rolunk.html" style="margin: 10px; color: white; text-decoration: none;">Rólunk</a>
-  <a href="kapcsolat.html" style="margin: 10px; color: white; text-decoration: none;">Kapcsolat</a>
-  <a href="feltoltes.html" style="margin: 10px; color: white; text-decoration: none;">Hirdetés feltöltés</a>
-  <a href="paypal.html" style="margin: 10px; color: white; text-decoration: none;">Fizetés</a>
-</nav>
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const fizetett = confirm("Fizettél már PayPallal?");
+      if (!fizetett) {
+        alert("Kérjük, előbb fizess PayPallal!");
+        return;
+      }
 
-<main><div class="box"><h1>Hirdetés feltöltése</h1><form>
-<label>Cím: <input type="text" name="cim"></label><br>
-<label>Leírás:<br><textarea name="leiras"></textarea></label><br>
-<label>Ár (Ft): <input type="number" name="ar"></label><br>
-<label>Kép: <input type="file" name="kep"></label><br>
-<label>Email: <input type="email" name="email"></label><br>
-<button type="submit">Hirdetés küldése</button></form></div></main></body></html>
+      const data = {
+        cim: document.getElementById("cim").value,
+        leiras: document.getElementById("leiras").value,
+        ar: document.getElementById("ar").value,
+        email: document.getElementById("email").value
+      };
+
+      const { error } = await supabase.from("ads").insert([data]);
+      if (error) {
+        alert("Hiba történt a mentés során.");
+        console.error(error);
+      } else {
+        alert("Sikeres mentés!");
+        event.target.reset();
+      }
+    }
+  </script>
+</head>
+<body style="font-family: Arial; background-color: #e8f5e9;">
+  <h1 style="text-align:center;">Hirdetés feltöltése</h1>
+  <form onsubmit="handleSubmit(event)" style="max-width:600px;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);">
+    <label>Cím:<br><input id="cim" type="text" required style="width:100%;padding:8px;"></label><br><br>
+    <label>Leírás:<br><textarea id="leiras" rows="5" required style="width:100%;padding:8px;"></textarea></label><br><br>
+    <label>Ár (Ft):<br><input id="ar" type="number" required style="width:100%;padding:8px;"></label><br><br>
+    <label>E-mail:<br><input id="email" type="email" required style="width:100%;padding:8px;"></label><br><br>
+    <button type="submit" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Mentés</button>
+  </form>
+
+  <div style="text-align:center;margin-top:20px;">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="bartha.attila76@gmail.com">
+      <input type="hidden" name="item_name" value="SzakiPiac hirdetés">
+      <input type="hidden" name="amount" value="1290">
+      <input type="hidden" name="currency_code" value="HUF">
+      <input type="submit" value="Fizetés PayPal-lal" style="margin-top:10px;padding:10px 20px;">
+    </form>
+  </div>
+</body>
+</html>
