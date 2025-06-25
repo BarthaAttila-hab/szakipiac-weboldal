@@ -1,82 +1,64 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hirdetés feltöltése</title>
+  <meta charset="UTF-8">
+  <title>Hirdetés feltöltése – SzakiPiac.hu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body { font-family: Arial; background-color: #e8f5e9; margin: 0; }
-    header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; }
-    nav { background-color: #388e3c; display: flex; justify-content: center; }
-    nav a { color: white; padding: 14px 20px; display: block; text-decoration: none; }
-    nav a:hover { background-color: #2e7d32; }
-    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 20px; }
-  </style>
 </head>
-<body>
-  <header>
-    <h1>SzakiPiac – Hirdetés feltöltése</h1>
-  </header>
-  <nav>
-    <a href="index.html">Főoldal</a>
-    <a href="rolunk.html">Rólunk</a>
-    <a href="kapcsolat.html">Kapcsolat</a>
-    <a href="feltoltes.html">Feltöltés</a>
-    <a href="paypal.html">Fizetés</a>
-  </nav>
+<body style="margin:0; font-family:Arial; background-color:#f1f8e9;">
 
-  <div class="container">
-    <form onsubmit="handleSubmit(event)">
-      <label>Cím:<br><input id="cim" type="text" required style="width:100%;padding:8px;"></label><br><br>
-      <label>Leírás:<br><textarea id="leiras" rows="5" required style="width:100%;padding:8px;"></textarea></label><br><br>
-      <label>Ár (Ft):<br><input id="ar" type="number" required style="width:100%;padding:8px;"></label><br><br>
-      <label>E-mail:<br><input id="email" type="email" required style="width:100%;padding:8px;"></label><br><br>
-      <button type="submit" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Mentés</button>
-    </form>
+<header style="background-color:#2e7d32; color:white; padding:15px; text-align:center;">
+  <h1>SzakiPiac.hu</h1>
+</header>
+<nav style="background-color:#388e3c; display:flex; justify-content:center;">
+  <a href="index.html" style="color:white; padding:14px 20px; text-decoration:none;">Főoldal</a>
+  <a href="rolunk.html" style="color:white; padding:14px 20px; text-decoration:none;">Rólunk</a>
+  <a href="kapcsolat.html" style="color:white; padding:14px 20px; text-decoration:none;">Kapcsolat</a>
+  <a href="feltoltes.html" style="color:white; padding:14px 20px; text-decoration:none;">Hirdetés feltöltés</a>
+  <a href="admin.html" style="color:white; padding:14px 20px; text-decoration:none;">Admin</a>
+</nav>
 
-    <div style="text-align:center;margin-top:20px;">
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="bartha.attila76@gmail.com">
-        <input type="hidden" name="item_name" value="SzakiPiac hirdetés">
-        <input type="hidden" name="amount" value="1290">
-        <input type="hidden" name="currency_code" value="HUF">
-        <input type="submit" value="Fizetés PayPal-lal" style="margin-top:10px;padding:10px 20px;">
-      </form>
-    </div>
-  </div>
+<div style="max-width:600px;margin:auto;padding:20px;background:white;margin-top:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);">
+  <h2>Hirdetés feltöltése</h2>
+  <form onsubmit="handleSubmit(event)">
+    <label>Cím:<br><input id="cim" type="text" required style="width:100%;padding:8px;"></label><br><br>
+    <label>Leírás:<br><textarea id="leiras" rows="5" required style="width:100%;padding:8px;"></textarea></label><br><br>
+    <label>Ár (Ft):<br><input id="ar" type="number" required style="width:100%;padding:8px;"></label><br><br>
+    <label>E-mail:<br><input id="email" type="email" required style="width:100%;padding:8px;"></label><br><br>
+    <button type="submit" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Fizetés és mentés</button>
+  </form>
+</div>
 
-  <script>
-    const supabase = supabase.createClient(
-      "https://tzmcofiuqeanftviquwp.supabase.co",
-      "public-anon-key"
-    );
+<script>
+const supabase = supabase.createClient(
+  "https://tzmcofiuqeanftviquwp.supabase.co",
+  "public-anon-key"
+);
 
-    async function handleSubmit(event) {
-      event.preventDefault();
-      const fizetett = confirm("Fizettél már PayPallal?");
-      if (!fizetett) {
-        alert("Kérjük, előbb fizess PayPallal!");
-        return;
-      }
+async function handleSubmit(event) {
+  event.preventDefault();
 
-      const data = {
-        cim: document.getElementById("cim").value,
-        leiras: document.getElementById("leiras").value,
-        ar: document.getElementById("ar").value,
-        email: document.getElementById("email").value
-      };
+  // PayPal fizetés elindítása
+  const fizetes = confirm("A hirdetés díja 1290 Ft. Továbbmész PayPal fizetésre?");
+  if (!fizetes) return;
 
-      const { error } = await supabase.from("ads").insert([data]);
-      if (error) {
-        alert("Hiba történt a mentés során.");
-        console.error(error);
-      } else {
-        alert("Sikeres mentés!");
-        event.target.reset();
-      }
-    }
-  </script>
+  window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=bartha.attila76@gmail.com&item_name=SzakiPiac+hirdetés&amount=1290&currency_code=HUF", "_blank");
+
+  const cim = document.getElementById("cim").value;
+  const leiras = document.getElementById("leiras").value;
+  const ar = document.getElementById("ar").value;
+  const email = document.getElementById("email").value;
+
+  const { error } = await supabase.from("ads").insert([{ cim, leiras, ar, email }]);
+  if (error) {
+    alert("Hiba történt a mentés során.");
+    console.error(error);
+  } else {
+    alert("A hirdetés mentése sikeres! Ellenőrizheted az admin oldalon.");
+    event.target.reset();
+  }
+}
+</script>
 </body>
 </html>
