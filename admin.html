@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin – Hirdetések</title>
+  <title>Admin – SzakiPiac</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { font-family: Arial; background-color: #f1f8e9; margin: 0; padding: 0; }
@@ -16,7 +16,7 @@
   </style>
 </head>
 <body>
-  <header><h1>Adminfelület – Beküldött hirdetések</h1></header>
+  <header><h1>Adminfelület – Hirdetések</h1></header>
   <nav>
     <a href="index.html">Főoldal</a>
     <a href="feltoltes.html">Feltöltés</a>
@@ -24,14 +24,15 @@
   </nav>
 
   <div class="container" id="auth">
-    <h2>Bejelentkezés</h2>
+    <h2>Bejelentkezés vagy regisztráció</h2>
     <input type="email" id="email" placeholder="Email" style="width:100%;padding:8px;"><br><br>
     <input type="password" id="password" placeholder="Jelszó" style="width:100%;padding:8px;"><br><br>
-    <button onclick="login()" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Bejelentkezés</button>
+    <button onclick="signIn()" style="padding:10px 20px;margin-right:10px;background:#2e7d32;color:white;border:none;border-radius:5px;">Bejelentkezés</button>
+    <button onclick="signUp()" style="padding:10px 20px;background:#00695c;color:white;border:none;border-radius:5px;">Regisztráció</button>
   </div>
 
   <div class="container" id="ads" style="display:none;">
-    <h2>Hirdetések</h2>
+    <h2>Beküldött hirdetések</h2>
     <div id="ads-list"></div>
   </div>
 
@@ -41,19 +42,13 @@ const supabase = supabase.createClient(
   "public-anon-key"
 );
 
-async function login() {
+async function signIn() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-  if (error) {
-    alert("Hibás bejelentkezés");
-    return;
-  }
-
-  if (email !== "bartha.attila76@gmail.com") {
-    alert("Nincs jogosultságod!");
+  if (error || email !== "atika.76@windowslive.com") {
+    alert("Hibás belépés vagy nincs jogosultság!");
     return;
   }
 
@@ -62,21 +57,33 @@ async function login() {
   loadAds();
 }
 
+async function signUp() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const { data, error } = await supabase.auth.signUp({ email, password });
+
+  if (error) {
+    alert("Hiba regisztrációkor: " + error.message);
+  } else {
+    alert("Sikeres regisztráció! Most jelentkezz be.");
+  }
+}
+
 async function loadAds() {
   const { data, error } = await supabase.from("ads").select("*").order("created_at", { ascending: false });
   if (error) {
-    alert("Hiba történt a hirdetések betöltésekor.");
+    alert("Nem sikerült betölteni a hirdetéseket.");
     return;
   }
 
-  const adsList = document.getElementById("ads-list");
-  adsList.innerHTML = "";
+  const list = document.getElementById("ads-list");
+  list.innerHTML = "";
 
   data.forEach(ad => {
     const div = document.createElement("div");
     div.className = "ad";
     div.innerHTML = `<b>${ad.cim}</b><br>${ad.leiras}<br><i>${ad.ar} Ft – ${ad.email}</i>`;
-    adsList.appendChild(div);
+    list.appendChild(div);
   });
 }
 </script>
