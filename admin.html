@@ -2,39 +2,36 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin – SzakiPiac</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body { font-family: Arial; background-color: #f1f8e9; margin: 0; padding: 0; }
-    header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; }
-    nav { background-color: #388e3c; display: flex; justify-content: center; }
-    nav a { color: white; padding: 14px 20px; display: block; text-decoration: none; }
-    nav a:hover { background-color: #2e7d32; }
-    .container { max-width: 800px; margin: auto; padding: 20px; }
-    .ad { background: white; margin-bottom: 10px; padding: 10px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-  </style>
 </head>
-<body>
-  <header><h1>Adminfelület – Hirdetések</h1></header>
-  <nav>
-    <a href="index.html">Főoldal</a>
-    <a href="feltoltes.html">Feltöltés</a>
-    <a href="admin.html">Admin</a>
-  </nav>
+<body style="margin:0; font-family:Arial; background-color:#f9fff3;">
 
-  <div class="container" id="auth">
-    <h2>Bejelentkezés vagy regisztráció</h2>
-    <input type="email" id="email" placeholder="Email" style="width:100%;padding:8px;"><br><br>
-    <input type="password" id="password" placeholder="Jelszó" style="width:100%;padding:8px;"><br><br>
-    <button onclick="signIn()" style="padding:10px 20px;margin-right:10px;background:#2e7d32;color:white;border:none;border-radius:5px;">Bejelentkezés</button>
-    <button onclick="signUp()" style="padding:10px 20px;background:#00695c;color:white;border:none;border-radius:5px;">Regisztráció</button>
+<header style="background-color:#2e7d32; color:white; padding:15px; text-align:center;">
+  <h1>SzakiPiac.hu</h1>
+</header>
+<nav style="background-color:#388e3c; display:flex; justify-content:center;">
+  <a href="index.html" style="color:white; padding:14px 20px; text-decoration:none;">Főoldal</a>
+  <a href="rolunk.html" style="color:white; padding:14px 20px; text-decoration:none;">Rólunk</a>
+  <a href="kapcsolat.html" style="color:white; padding:14px 20px; text-decoration:none;">Kapcsolat</a>
+  <a href="feltoltes.html" style="color:white; padding:14px 20px; text-decoration:none;">Hirdetés feltöltés</a>
+  <a href="admin.html" style="color:white; padding:14px 20px; text-decoration:none;">Admin</a>
+</nav>
+
+<div style="max-width:600px;margin:auto;padding:20px;">
+  <h2>Admin bejelentkezés</h2>
+  <div id="auth">
+    <input type="email" id="email" placeholder="E-mail" style="width:100%;padding:10px;margin-bottom:10px;"><br>
+    <input type="password" id="password" placeholder="Jelszó" style="width:100%;padding:10px;margin-bottom:10px;"><br>
+    <button onclick="login()" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Bejelentkezés</button>
+    <p style="font-size:12px;">Használható e-mail: <b>atika.76@windowslive.com</b></p>
   </div>
-
-  <div class="container" id="ads" style="display:none;">
-    <h2>Beküldött hirdetések</h2>
+  <div id="ads" style="display:none;">
+    <h3>Beküldött hirdetések</h3>
     <div id="ads-list"></div>
   </div>
+</div>
 
 <script>
 const supabase = supabase.createClient(
@@ -42,31 +39,23 @@ const supabase = supabase.createClient(
   "public-anon-key"
 );
 
-async function signIn() {
+async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
 
   if (error || email !== "atika.76@windowslive.com") {
-    alert("Hibás belépés vagy nincs jogosultság!");
+    alert("Hibás belépési adatok vagy jogosultság!");
     return;
   }
 
   document.getElementById("auth").style.display = "none";
   document.getElementById("ads").style.display = "block";
   loadAds();
-}
-
-async function signUp() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const { data, error } = await supabase.auth.signUp({ email, password });
-
-  if (error) {
-    alert("Hiba regisztrációkor: " + error.message);
-  } else {
-    alert("Sikeres regisztráció! Most jelentkezz be.");
-  }
 }
 
 async function loadAds() {
@@ -78,10 +67,9 @@ async function loadAds() {
 
   const list = document.getElementById("ads-list");
   list.innerHTML = "";
-
   data.forEach(ad => {
     const div = document.createElement("div");
-    div.className = "ad";
+    div.style = "margin-bottom:15px;padding:10px;border:1px solid #ccc;border-radius:5px;background:white;";
     div.innerHTML = `<b>${ad.cim}</b><br>${ad.leiras}<br><i>${ad.ar} Ft – ${ad.email}</i>`;
     list.appendChild(div);
   });
