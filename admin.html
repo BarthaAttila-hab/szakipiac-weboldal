@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin – Hirdetések</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: Arial; background-color: #f1f8e9; margin: 0; padding: 0; }
+    header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; }
+    nav { background-color: #388e3c; display: flex; justify-content: center; }
+    nav a { color: white; padding: 14px 20px; display: block; text-decoration: none; }
+    nav a:hover { background-color: #2e7d32; }
+    .container { max-width: 800px; margin: auto; padding: 20px; }
+    .ad { background: white; margin-bottom: 10px; padding: 10px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <header><h1>Adminfelület – Beküldött hirdetések</h1></header>
+  <nav>
+    <a href="index.html">Főoldal</a>
+    <a href="feltoltes.html">Feltöltés</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+  <div class="container" id="auth">
+    <h2>Bejelentkezés</h2>
+    <input type="email" id="email" placeholder="Email" style="width:100%;padding:8px;"><br><br>
+    <input type="password" id="password" placeholder="Jelszó" style="width:100%;padding:8px;"><br><br>
+    <button onclick="login()" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Bejelentkezés</button>
+  </div>
+
+  <div class="container" id="ads" style="display:none;">
+    <h2>Hirdetések</h2>
+    <div id="ads-list"></div>
+  </div>
+
+<script>
+const supabase = supabase.createClient(
+  "https://tzmcofiuqeanftviquwp.supabase.co",
+  "public-anon-key"
+);
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    alert("Hibás bejelentkezés");
+    return;
+  }
+
+  if (email !== "bartha.attila76@gmail.com") {
+    alert("Nincs jogosultságod!");
+    return;
+  }
+
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("ads").style.display = "block";
+  loadAds();
+}
+
+async function loadAds() {
+  const { data, error } = await supabase.from("ads").select("*").order("created_at", { ascending: false });
+  if (error) {
+    alert("Hiba történt a hirdetések betöltésekor.");
+    return;
+  }
+
+  const adsList = document.getElementById("ads-list");
+  adsList.innerHTML = "";
+
+  data.forEach(ad => {
+    const div = document.createElement("div");
+    div.className = "ad";
+    div.innerHTML = `<b>${ad.cim}</b><br>${ad.leiras}<br><i>${ad.ar} Ft – ${ad.email}</i>`;
+    adsList.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
