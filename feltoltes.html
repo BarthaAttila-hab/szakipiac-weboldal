@@ -1,82 +1,49 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Hirdetés feltöltése</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; background-color: #e8f5e9; margin: 0; }
-    header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; }
-    nav { background-color: #388e3c; display: flex; justify-content: center; }
-    nav a { color: white; padding: 14px 20px; display: block; text-decoration: none; }
-    nav a:hover { background-color: #2e7d32; }
-    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 20px; }
+    body { margin: 0; font-family: Arial, sans-serif; background-color: #f1fbe7; }
+    header { background-color: #2d8532; padding: 1rem; display: flex; align-items: center; color: white; }
+    header img { height: 40px; margin-right: 1rem; }
+    nav a {
+      color: white; margin: 0 1rem; text-decoration: none; font-weight: bold;
+    }
+    .container {
+      margin: 2rem auto; max-width: 700px;
+      background: white; padding: 2rem;
+      border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 { margin-top: 0; }
   </style>
 </head>
 <body>
   <header>
-    <h1>SzakiPiac – Hirdetés feltöltése</h1>
+    <img src="logo.png" alt="SzakiPiac logó" />
+    <nav>
+      <a href="index.html">Főoldal</a>
+      <a href="rolunk.html">Rólunk</a>
+      <a href="kapcsolat.html">Kapcsolat</a>
+      <a href="feltoltes.html">Hirdetés feltöltés</a>
+      <a href="admin.html">Admin</a>
+    </nav>
   </header>
-  <nav>
-    <a href="index.html">Főoldal</a>
-    <a href="rolunk.html">Rólunk</a>
-    <a href="kapcsolat.html">Kapcsolat</a>
-    <a href="feltoltes.html">Feltöltés</a>
-    <a href="paypal.html">Fizetés</a>
-  </nav>
-
   <div class="container">
-    <form onsubmit="handleSubmit(event)">
-      <label>Cím:<br><input id="cim" type="text" required style="width:100%;padding:8px;"></label><br><br>
-      <label>Leírás:<br><textarea id="leiras" rows="5" required style="width:100%;padding:8px;"></textarea></label><br><br>
-      <label>Ár (Ft):<br><input id="ar" type="number" required style="width:100%;padding:8px;"></label><br><br>
-      <label>E-mail:<br><input id="email" type="email" required style="width:100%;padding:8px;"></label><br><br>
-      <button type="submit" style="padding:10px 20px;background:#2e7d32;color:white;border:none;border-radius:5px;">Mentés</button>
-    </form>
-
-    <div style="text-align:center;margin-top:20px;">
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="bartha.attila76@gmail.com">
-        <input type="hidden" name="item_name" value="SzakiPiac hirdetés">
-        <input type="hidden" name="amount" value="1290">
-        <input type="hidden" name="currency_code" value="HUF">
-        <input type="submit" value="Fizetés PayPal-lal" style="margin-top:10px;padding:10px 20px;">
-      </form>
-    </div>
+    
+        <h1>SzakiPiac – Hirdetés feltöltése</h1>
+        <form>
+          <label>Cím:<br><input type="text" /></label><br><br>
+          <label>Leírás:<br><textarea></textarea></label><br><br>
+          <label>Ár (Ft):<br><input type="number" /></label><br><br>
+          <label>E-mail:<br><input type="email" /></label><br><br>
+          <button type="submit">Mentés</button>
+        </form>
+        <br>
+        <button>Fizetés PayPal-lal</button>
+        
   </div>
-
-  <script>
-    const supabase = supabase.createClient(
-      "https://tzmcofiuqeanftviquwp.supabase.co",
-      "public-anon-key"
-    );
-
-    async function handleSubmit(event) {
-      event.preventDefault();
-      const fizetett = confirm("Fizettél már PayPallal?");
-      if (!fizetett) {
-        alert("Kérjük, előbb fizess PayPallal!");
-        return;
-      }
-
-      const data = {
-        cim: document.getElementById("cim").value,
-        leiras: document.getElementById("leiras").value,
-        ar: document.getElementById("ar").value,
-        email: document.getElementById("email").value
-      };
-
-      const { error } = await supabase.from("ads").insert([data]);
-      if (error) {
-        alert("Hiba történt a mentés során.");
-        console.error(error);
-      } else {
-        alert("Sikeres mentés!");
-        event.target.reset();
-      }
-    }
-  </script>
 </body>
 </html>
