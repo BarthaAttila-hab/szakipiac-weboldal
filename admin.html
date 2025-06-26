@@ -51,19 +51,16 @@
     </div>
   </div>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/+esm';
-
-    const supabase = createClient(
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
+  <script>
+    const supabase = supabase.createClient(
       'https://tzmcofiuqeanftviquwp.supabase.co',
-      'public-anon-key'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bWNvZml1cWVhbmZ0dmlxdXdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1ODAzMjYsImV4cCI6MjA2NjE1NjMyNn0.oxD20AplWIl7p6znO0GoVxDWX7aeD_8fhFRmooS2xm4'
     );
-
-    window.supabase = supabase;
 
     const ADMIN_EMAIL = "atika.76@windowslive.com";
 
-    window.login = async function () {
+    async function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
@@ -82,7 +79,7 @@
       }
     }
 
-    window.logout = async function () {
+    async function logout() {
       await supabase.auth.signOut();
       location.reload();
     }
