@@ -1,12 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin felület - SzakiPiac</title>
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #eaf7e9; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f1fbe7; }
     header { background: #2d8532; padding: 1rem; color: white; display: flex; align-items: center; }
     header img { height: 40px; margin-right: 1rem; }
     nav a {
@@ -23,7 +23,6 @@
   </style>
 </head>
 <body>
-  
   <header>
     <img src="logo.png" alt="SzakiPiac logó" />
     <nav>
@@ -34,7 +33,6 @@
       <a href="admin.html">Admin</a>
     </nav>
   </header>
-
 
   <div class="container">
     <h1>Admin felület</h1>
@@ -53,15 +51,19 @@
     </div>
   </div>
 
-  <script>
-    const supabase = supabase.createClient(
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/+esm';
+
+    const supabase = createClient(
       'https://tzmcofiuqeanftviquwp.supabase.co',
       'public-anon-key'
     );
 
+    window.supabase = supabase;
+
     const ADMIN_EMAIL = "atika.76@windowslive.com";
 
-    async function login() {
+    window.login = async function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
@@ -80,7 +82,7 @@
       }
     }
 
-    async function logout() {
+    window.logout = async function () {
       await supabase.auth.signOut();
       location.reload();
     }
