@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>SzakiPiac.hu – Kezdőlap</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SzakiPiac</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2e7d32"/>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('SW registered'))
+        .catch(err => console.error('SW registration failed', err));
+    }
+  </script>
 </head>
-<body style="margin:0; font-family:Arial; background-color:#fefef0;">
-
-<header style="background-color:#2e7d32; color:white; padding:15px; text-align:center;">
-  <h1>SzakiPiac.hu</h1>
-</header>
-<nav style="background-color:#388e3c; display:flex; justify-content:center;">
-  <a href="index.html" style="color:white; padding:14px 20px; text-decoration:none;">Főoldal</a>
-  <a href="rolunk.html" style="color:white; padding:14px 20px; text-decoration:none;">Rólunk</a>
-  <a href="kapcsolat.html" style="color:white; padding:14px 20px; text-decoration:none;">Kapcsolat</a>
-  <a href="feltoltes.html" style="color:white; padding:14px 20px; text-decoration:none;">Hirdetés feltöltés</a>
-  <a href="admin.html" style="color:white; padding:14px 20px; text-decoration:none;">Admin</a>
-</nav>
-
-<div style="padding:20px; text-align:center;">
-  <h2>Üdvözlünk a SzakiPiac.hu-n!</h2>
-  <p>Itt hirdethetsz, vállalkozót kereshetsz vagy digitális terméket tölthetsz fel.</p>
-</div>
+<body style="background-color:#e8f5e9; margin:0;">
+  <nav style="background-color: #2e7d32; padding: 10px;">
+    <img src="szakipiac_logo.png" alt="SzakiPiac logó" style="height: 40px; vertical-align: middle;">
+    <a href="index.html" style="margin: 10px; color: white;">Főoldal</a>
+    <a href="rolunk.html" style="margin: 10px; color: white;">Rólunk</a>
+    <a href="kapcsolat.html" style="margin: 10px; color: white;">Kapcsolat</a>
+    <a href="feltoltes.html" style="margin: 10px; color: white;">Hirdetés feltöltés</a>
+    <a href="paypal.html" style="margin: 10px; color: white;">Fizetés</a>
+  </nav>
+  <main>
+    <div class="box" style="background:white;max-width:600px;margin:30px auto;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);">
+      <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
+      <p>Itt hirdethetsz, vállalkozót kereshetsz vagy digitális terméket tölthetsz fel.</p>
+    </div>
+  </main>
 </body>
 </html>
