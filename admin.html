@@ -1,91 +1,61 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin – SzakiPiac</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body { font-family: Arial; background-color: #f1f8e9; margin: 0; padding: 0; }
-    header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; }
-    nav { background-color: #388e3c; display: flex; justify-content: center; }
-    nav a { color: white; padding: 14px 20px; display: block; text-decoration: none; }
-    nav a:hover { background-color: #2e7d32; }
-    .container { max-width: 800px; margin: auto; padding: 20px; }
-    .ad { background: white; margin-bottom: 10px; padding: 10px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-  </style>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #eaf7e9;
+        }
+        header {
+            background-color: #2d8532;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        header img {
+            height: 40px;
+            margin-right: 1rem;
+        }
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            margin: 2rem auto;
+            max-width: 700px;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-top: 0;
+        }
+    </style>
 </head>
 <body>
-  <header><h1>Adminfelület – Hirdetések</h1></header>
-  <nav>
-    <a href="index.html">Főoldal</a>
-    <a href="feltoltes.html">Feltöltés</a>
-    <a href="admin.html">Admin</a>
-  </nav>
+    <header>
+        <img src="logo.png" alt="SzakiPiac logó">
+        <nav>
+            <a href="index.html">Főoldal</a>
+            <a href="rolunk.html">Rólunk</a>
+            <a href="kapcsolat.html">Kapcsolat</a>
+            <a href="feltoltes.html">Hirdetés feltöltés</a>
+        </nav>
+    </header>
+    <div class="container">
+        
+<h1>Admin felület</h1>
+<p>Üdvözöljük az adminisztrációs felületen. Itt kezelheti a hirdetéseket és a felhasználói beállításokat.</p>
 
-  <div class="container" id="auth">
-    <h2>Bejelentkezés vagy regisztráció</h2>
-    <input type="email" id="email" placeholder="Email" style="width:100%;padding:8px;"><br><br>
-    <input type="password" id="password" placeholder="Jelszó" style="width:100%;padding:8px;"><br><br>
-    <button onclick="signIn()" style="padding:10px 20px;margin-right:10px;background:#2e7d32;color:white;border:none;border-radius:5px;">Bejelentkezés</button>
-    <button onclick="signUp()" style="padding:10px 20px;background:#00695c;color:white;border:none;border-radius:5px;">Regisztráció</button>
-  </div>
-
-  <div class="container" id="ads" style="display:none;">
-    <h2>Beküldött hirdetések</h2>
-    <div id="ads-list"></div>
-  </div>
-
-<script>
-const supabase = supabase.createClient(
-  "https://tzmcofiuqeanftviquwp.supabase.co",
-  "public-anon-key"
-);
-
-async function signIn() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-  if (error || email !== "atika.76@windowslive.com") {
-    alert("Hibás belépés vagy nincs jogosultság!");
-    return;
-  }
-
-  document.getElementById("auth").style.display = "none";
-  document.getElementById("ads").style.display = "block";
-  loadAds();
-}
-
-async function signUp() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const { data, error } = await supabase.auth.signUp({ email, password });
-
-  if (error) {
-    alert("Hiba regisztrációkor: " + error.message);
-  } else {
-    alert("Sikeres regisztráció! Most jelentkezz be.");
-  }
-}
-
-async function loadAds() {
-  const { data, error } = await supabase.from("ads").select("*").order("created_at", { ascending: false });
-  if (error) {
-    alert("Nem sikerült betölteni a hirdetéseket.");
-    return;
-  }
-
-  const list = document.getElementById("ads-list");
-  list.innerHTML = "";
-
-  data.forEach(ad => {
-    const div = document.createElement("div");
-    div.className = "ad";
-    div.innerHTML = `<b>${ad.cim}</b><br>${ad.leiras}<br><i>${ad.ar} Ft – ${ad.email}</i>`;
-    list.appendChild(div);
-  });
-}
-</script>
+    </div>
 </body>
 </html>
