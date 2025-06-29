@@ -3,29 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <title>SzakiPiac – Hirdetés feltöltése</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
+  <script src="supabase.js"></script>
 </head>
 <body>
   <h1>SzakiPiac – Hirdetés feltöltése</h1>
-  <form id="hirdetesForm">
-    <label for="cim">Cím:</label><br />
-    <input type="text" id="cim" name="cim" required /><br />
-    <label for="leiras">Leírás:</label><br />
-    <textarea id="leiras" name="leiras" required></textarea><br />
-    <label for="ar">Ár (Ft):</label><br />
-    <input type="number" id="ar" name="ar" required /><br />
-    <label for="email">E-mail:</label><br />
-    <input type="email" id="email" name="email" required /><br /><br />
-    <div id="paypal-button-container"></div>
-  </form>
+  <div id="form-container" style="display:none;">
+    <form id="hirdetesForm">
+      <label for="cim">Cím:</label><br />
+      <input type="text" id="cim" name="cim" required /><br />
+
+      <label for="leiras">Leírás:</label><br />
+      <textarea id="leiras" name="leiras" required></textarea><br />
+
+      <label for="ar">Ár (Ft):</label><br />
+      <input type="number" id="ar" name="ar" required /><br />
+
+      <label for="kategoria">Kategória:</label><br />
+      <select id="kategoria" name="kategoria" required>
+        <option value="">– Válassz kategóriát –</option>
+        <option value="Építőipar">Építőipar</option>
+        <option value="Kertépítés">Kertépítés</option>
+        <option value="Lakberendezés">Lakberendezés</option>
+        <option value="Számítástechnika">Számítástechnika</option>
+      </select><br /><br />
+
+      <div id="paypal-button-container"></div>
+    </form>
+  </div>
 
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
   <script>
+    let userEmail = "";
+
+    async function checkLogin() {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data?.user) {
+        window.location.href = "auth.html";
+        return;
+      }
+      userEmail = data.user.email;
+      document.getElementById("form-container").style.display = "block";
+    }
+
     paypal.Buttons({
       createOrder: function(data, actions) {
         return actions.order.create({
-          purchase_units: [{
-            amount: { value: '990' }
-          }]
+          purchase_units: [{ amount: { value: '990' } }]
         });
       },
       onApprove: function(data, actions) {
@@ -34,7 +58,8 @@
             cim: document.getElementById("cim").value,
             leiras: document.getElementById("leiras").value,
             ar: parseInt(document.getElementById("ar").value),
-            email: document.getElementById("email").value
+            kategoria: document.getElementById("kategoria").value,
+            email: userEmail
           };
 
           fetch("https://tzmcofiuqeanftviquwp.supabase.co/rest/v1/hirdetesek", {
@@ -56,6 +81,8 @@
         });
       }
     }).render("#paypal-button-container");
+
+    checkLogin();
   </script>
 </body>
 </html>

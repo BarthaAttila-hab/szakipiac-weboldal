@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Főoldal</title>
+  <title>Főoldal – SzakiPiac</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
+  <script src="supabase.js"></script>
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background-color: #f1fbe7; }
     header { background-color: #2d8532; padding: 1rem; display: flex; align-items: center; color: white; }
@@ -13,11 +14,23 @@
       color: white; margin: 0 1rem; text-decoration: none; font-weight: bold;
     }
     .container {
-      margin: 2rem auto; max-width: 700px;
+      margin: 2rem auto; max-width: 900px;
       background: white; padding: 2rem;
       border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 { margin-top: 0; }
+    h1, h2 { margin-top: 0; }
+    .category { margin-top: 2rem; }
+    .ad-item {
+      border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin: 1rem 0;
+      background: #f9f9f9;
+    }
+    .filters { margin-bottom: 2rem; }
+    input[type="text"], select {
+      padding: 0.5rem;
+      margin-right: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
@@ -28,11 +41,94 @@
       <a href="rolunk.html">Rólunk</a>
       <a href="kapcsolat.html">Kapcsolat</a>
       <a href="feltoltes.html">Hirdetés feltöltés</a>
-      
     </nav>
   </header>
+
   <div class="container">
-    <h1>Üdvözlünk a SzakiPiac.hu-n!</h1><p>Itt hirdethetsz, vállalkozót kereshetsz vagy digitális terméket tölthetsz fel.</p>
+    <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
+    <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
+
+    <div class="filters">
+      <input type="text" id="kereses" placeholder="Keresés a hirdetésekben..." />
+      <select id="kategoriavalaszto">
+        <option value="">Összes kategória</option>
+        <option value="Építőipar">Építőipar</option>
+        <option value="Kertépítés">Kertépítés</option>
+        <option value="Lakberendezés">Lakberendezés</option>
+        <option value="Számítástechnika">Számítástechnika</option>
+      </select>
+    </div>
+
+    <div id="ads-container">
+      <p>Hirdetések betöltése...</p>
+    </div>
   </div>
+
+  <script>
+    const adsContainer = document.getElementById("ads-container");
+    const searchInput = document.getElementById("kereses");
+    const categorySelect = document.getElementById("kategoriavalaszto");
+
+    let allAds = [];
+
+    async function loadAds() {
+      const { data, error } = await supabase.from("hirdetesek").select("*").order("id", { ascending: false });
+
+      if (error || !data) {
+        adsContainer.innerHTML = "<p>Nem sikerült betölteni a hirdetéseket.</p>";
+        return;
+      }
+
+      allAds = data;
+      renderAds();
+    }
+
+    function renderAds() {
+      const search = searchInput.value.toLowerCase();
+      const selectedCategory = categorySelect.value;
+
+      const categories = {
+        "Építőipar": [],
+        "Kertépítés": [],
+        "Lakberendezés": [],
+        "Számítástechnika": []
+      };
+
+      allAds.forEach(ad => {
+        const text = (ad.cim + " " + ad.leiras).toLowerCase();
+        if ((search === "" || text.includes(search)) &&
+            (selectedCategory === "" || ad.kategoria === selectedCategory)) {
+          if (categories[ad.kategoria]) {
+            categories[ad.kategoria].push(ad);
+          }
+        }
+      });
+
+      let html = "";
+
+      for (const [kategoria, hirdetesek] of Object.entries(categories)) {
+        if (hirdetesek.length > 0) {
+          html += `<div class="category"><h2>${kategoria}</h2>`;
+          hirdetesek.forEach(ad => {
+            html += `
+              <div class="ad-item">
+                <strong>${ad.cim || 'Hirdetés címe'}</strong>
+                <p>${ad.leiras || ''}</p>
+                <p><em>${ad.ar ? ad.ar + ' Ft' : ''}</em></p>
+              </div>
+            `;
+          });
+          html += "</div>";
+        }
+      }
+
+      adsContainer.innerHTML = html || "<p>Nincs találat.</p>";
+    }
+
+    searchInput.addEventListener("input", renderAds);
+    categorySelect.addEventListener("change", renderAds);
+
+    loadAds();
+  </script>
 </body>
 </html>
