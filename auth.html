@@ -1,19 +1,96 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="UTF-8" />
-  <title>Bejelentkezés / Regisztráció – SzakiPiac</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
-  <script src="supabase.js"></script>
-  <script src="auth.js" defer></script>
+  <title>SzakiPiac – Bejelentkezés</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      background-color: #f3f3f3;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 400px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2d8532;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 49%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #2d8532;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #status {
+      color: red;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <h1>Bejelentkezés vagy Regisztráció</h1>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Jelszó" />
-  <br><br>
-  <button onclick="login()">Bejelentkezés</button>
-  <button onclick="signup()">Regisztráció</button>
-  <p id="message" style="color:red;"></p>
+  <div class="container">
+    <h1>Bejelentkezés</h1>
+    <div id="status"></div>
+    <input type="email" id="email" placeholder="E-mail cím" required />
+    <input type="password" id="password" placeholder="Jelszó" required />
+    <div style="display: flex; justify-content: space-between;">
+      <button onclick="login()">Bejelentkezés</button>
+      <button onclick="signup()">Regisztráció</button>
+    </div>
+  </div>
+
+  <script>
+    const client = supabase.createClient(
+      "https://tzmcofiuqeanftviquwp.supabase.co",
+      "public-anon-key",
+      {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    );
+
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      if (error) {
+        document.getElementById("status").innerText = "Hiba: " + error.message;
+      } else {
+        window.location.href = "feltoltes.html";
+      }
+    }
+
+    async function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await client.auth.signUp({ email, password });
+      if (error) {
+        document.getElementById("status").innerText = "Hiba: " + error.message;
+      } else {
+        document.getElementById("status").innerText = "Sikeres regisztráció! Most már bejelentkezhetsz.";
+      }
+    }
+  </script>
 </body>
 </html>
