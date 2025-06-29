@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
   <script src="supabase.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background-color: #f1fbe7; }
     header { background-color: #2d8532; padding: 1rem; display: flex; align-items: center; color: white; }
@@ -71,7 +72,6 @@
     </form>
   </div>
 
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
   <script>
     const supabase = window.supabase || createClient("https://tzmcofiuqeanftviquwp.supabase.co", "public-anon-key");
     let userEmail = "";
