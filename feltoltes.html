@@ -8,51 +8,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
   <style>
-    body {
-      background-color: #f3fff3;
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-    }
-    .container {
-      background: white;
-      max-width: 600px;
-      margin: auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #2d8532;
-      text-align: center;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.5rem 0 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    #paypal-button-container {
-      margin-top: 1rem;
-    }
-    #user-info {
-      max-width: 600px;
-      margin: auto;
-      margin-bottom: 1rem;
-      text-align: right;
-      font-size: 0.9rem;
-      color: #444;
-    }
-    #user-info button {
-      margin-left: 10px;
-      padding: 4px 10px;
-      font-size: 0.8rem;
-      background: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    body { background: #f3fff3; font-family: sans-serif; padding: 2rem; }
+    .container { background: white; max-width: 600px; margin: auto; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #2e8b57; }
+    input, textarea, select { width: 100%; margin-bottom: 1rem; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+    .packages label { display: block; margin-bottom: 8px; }
+    #user-info { text-align: right; max-width: 600px; margin: auto; margin-bottom: 1rem; }
+    #user-info button { margin-left: 10px; }
+    #paypal-button-container { margin-top: 1rem; }
+    #image-uploads input { margin-bottom: 6px; }
   </style>
 </head>
 <body>
@@ -60,48 +24,70 @@
     Bejelentkezve: <span id="user-email">–</span>
     <button onclick="logout()">Kijelentkezés</button>
   </div>
-
   <div class="container">
     <h1>Hirdetés feltöltése</h1>
-    <div id="status" style="color:red; text-align:center;"></div>
-    <input type="text" id="title" placeholder="Cím" required />
-    <textarea id="desc" placeholder="Leírás" required></textarea>
-    <input type="number" id="price" placeholder="Ár (Ft)" required />
+    <div id="status" style="color:red;text-align:center;"></div>
+    <input id="title" placeholder="Cím" />
+    <textarea id="desc" placeholder="Leírás"></textarea>
+    <input id="price" type="number" placeholder="Ár (Ft)" />
     <select id="category">
       <option value="">– Válassz kategóriát –</option>
-      <option value="Építőipar">Építőipar</option>
-      <option value="Lakberendezés">Lakberendezés</option>
-      <option value="Számítógép">Számítógép</option>
+      <option>Építőipar</option>
+      <option>Lakberendezés</option>
+      <option>Számítógép</option>
     </select>
+
+    <div class="packages">
+      <label><input type="radio" name="csomag" value="Alap" checked> Alap csomag (0 Ft, 0 kép)</label>
+      <label><input type="radio" name="csomag" value="Prémium"> Prémium csomag (500 Ft, 3 kép)</label>
+      <label><input type="radio" name="csomag" value="Extra"> Extra csomag (990 Ft, 5 kép)</label>
+    </div>
+
+    <div id="image-uploads"></div>
     <div id="paypal-button-container"></div>
   </div>
 
   <script>
-    const client = supabase.createClient(
+    const ADMIN = "atika.76@windowslive.com";
+    const supabase = window.supabase.createClient(
       "https://tzmcofiuqeanftviquwp.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bWNvZml1cWVhbmZ0dmlxdXdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1ODAzMjYsImV4cCI6MjA2NjE1NjMyNn0.oxD20AplWIl7p6znO0GoVxDWX7aeD_8fhFRmooS2xm4",
-      { persistSession: true, autoRefreshToken: true }
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bWNvZml1cWVhbmZ0dmlxdXdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1ODAzMjYsImV4cCI6MjA2NjE1NjMyNn0.oxD20AplWIl7p6znO0GoVxDWX7aeD_8fhFRmooS2xm4"
     );
 
-    async function initPage() {
-      const { data, error } = await client.auth.getUser();
-      console.log("User data:", data);
+    let user = null;
 
+    async function init() {
+      const { data } = await supabase.auth.getUser();
       if (!data?.user) {
-        document.getElementById("status").innerText = "Be kell jelentkezned a feltöltéshez!";
+        document.getElementById("status").innerText = "Be kell jelentkezned!";
+        return;
+      }
+      user = data.user;
+      document.getElementById("user-email").innerText = user.email;
+
+      const radios = document.querySelectorAll("input[name='csomag']");
+      radios.forEach(r => r.addEventListener("change", updateImageInputs));
+      updateImageInputs();
+
+      if (user.email === ADMIN) {
+        const btn = document.createElement("button");
+        btn.innerText = "Hirdetés mentése (admin)";
+        btn.onclick = saveAd;
+        btn.style.marginTop = "10px";
+        btn.style.padding = "10px";
+        btn.style.width = "100%";
+        document.getElementById("paypal-button-container").appendChild(btn);
         return;
       }
 
-      document.getElementById("user-email").innerText = data.user.email;
-
       paypal.Buttons({
         createOrder: (data, actions) => {
+          const selected = document.querySelector("input[name='csomag']:checked").value;
+          let amount = "0.00";
+          if (selected === "Prémium") amount = "500.00";
+          if (selected === "Extra") amount = "990.00";
           return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: "500.00"
-              }
-            }]
+            purchase_units: [{ amount: { value: amount } }]
           });
         },
         onApprove: async (data, actions) => {
@@ -111,9 +97,20 @@
       }).render("#paypal-button-container");
     }
 
-    async function logout() {
-      await client.auth.signOut();
-      window.location.href = "auth.html";
+    function updateImageInputs() {
+      const container = document.getElementById("image-uploads");
+      container.innerHTML = "";
+      const selected = document.querySelector("input[name='csomag']:checked").value;
+      let count = 0;
+      if (selected === "Prémium") count = 3;
+      if (selected === "Extra") count = 5;
+      for (let i = 1; i <= count; i++) {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.id = "image" + i;
+        container.appendChild(input);
+      }
     }
 
     async function saveAd() {
@@ -121,29 +118,36 @@
       const desc = document.getElementById("desc").value;
       const price = document.getElementById("price").value;
       const category = document.getElementById("category").value;
+      const csomag = document.querySelector("input[name='csomag']:checked").value;
 
       if (!title || !desc || !price || !category) {
-        alert("Minden mezőt ki kell tölteni!");
+        alert("Tölts ki minden mezőt!");
         return;
       }
 
-      const { error } = await client.from("hirdetesek").insert({
+      const { error } = await supabase.from("hirdetesek").insert({
         cim: title,
         leiras: desc,
         ar: price,
         kategoria: category,
+        csomag: csomag,
         jovahagyott: false
       });
 
       if (error) {
-        alert("Hiba a feltöltésnél: " + error.message);
+        alert("Hiba: " + error.message);
       } else {
-        alert("Hirdetés sikeresen feltöltve (jóváhagyásra vár)!");
-        window.location.reload();
+        alert("Hirdetés elmentve! Jóváhagyás után megjelenik.");
+        location.reload();
       }
     }
 
-    initPage();
+    async function logout() {
+      await supabase.auth.signOut();
+      window.location.href = "auth.html";
+    }
+
+    init();
   </script>
 </body>
 </html>
