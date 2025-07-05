@@ -1,65 +1,50 @@
+const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const statusDiv = document.getElementById("status");
+const switchForm = document.getElementById("switch-form");
+const formTitle = document.getElementById("form-title");
 
-const supabase = supabase.createClient(
-  "https://tzmcofiuqeanftviquwp.supabase.co",
-  "public-anon-key",
-  {
-    persistSession: true,
-    autoRefreshToken: true
+let isLogin = true;
+
+switchForm.addEventListener("click", () => {
+  isLogin = !isLogin;
+  loginForm.style.display = isLogin ? "block" : "none";
+  signupForm.style.display = isLogin ? "none" : "block";
+  formTitle.textContent = isLogin ? "Bejelentkezés" : "Regisztráció";
+  switchForm.textContent = isLogin ? "Nincs fiókod? Regisztrálj!" : "Már van fiókod? Jelentkezz be!";
+  statusDiv.textContent = "";
+});
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  statusDiv.textContent = "Bejelentkezés folyamatban...";
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    statusDiv.textContent = "Hiba: " + error.message;
+  } else {
+    window.location.href = "feltoltes.html";
   }
-);
+});
 
-const signUpForm = document.getElementById("signup-form");
-const signInForm = document.getElementById("login-form");
-const userInfo = document.getElementById("user-info");
-const logoutButton = document.getElementById("logout-button");
-
-// REGISZTRÁCIÓ
-if (signUpForm) {
-  signUpForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      alert("Hiba a regisztrációnál: " + error.message);
-    } else {
-      alert("Sikeres regisztráció! Most már bejelentkezhetsz.");
-      window.location.href = "auth.html";
-    }
-  });
-}
-
-// BEJELENTKEZÉS
-if (signInForm) {
-  signInForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      alert("Bejelentkezési hiba: " + error.message);
-    } else {
-      window.location.href = "feltoltes.html";
-    }
-  });
-}
-
-// KIJELENTKEZÉS
-if (logoutButton) {
-  logoutButton.addEventListener("click", async () => {
-    await supabase.auth.signOut();
-    window.location.href = "auth.html";
-  });
-}
-
-// AUTOMATIKUS FELHASZNÁLÓ BETÖLTÉS
-async function checkUser() {
-  const { data, error } = await supabase.auth.getUser();
-  if (data?.user) {
-    if (userInfo) {
-      userInfo.innerHTML = `<p>Bejelentkezve: <strong>${data.user.email}</strong></p>`;
-    }
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  statusDiv.textContent = "Regisztráció folyamatban...";
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const { error } = await supabase.auth.signUp({ email, password });
+  if (error) {
+    statusDiv.textContent = "Hiba: " + error.message;
+  } else {
+    statusDiv.textContent = "Sikeres regisztráció! Most már bejelentkezhetsz.";
+    setTimeout(() => {
+      isLogin = true;
+      loginForm.style.display = "block";
+      signupForm.style.display = "none";
+      formTitle.textContent = "Bejelentkezés";
+      switchForm.textContent = "Nincs fiókod? Regisztrálj!";
+      statusDiv.textContent = "";
+    }, 1800);
   }
-}
-
-checkUser();
+});
