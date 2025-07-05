@@ -2,37 +2,26 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Rólunk</title>
+  <title>Rólunk – SzakiPiac</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="header.js"></script>
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background-color: #f1fbe7; }
-    header { background-color: #2d8532; padding: 1rem; display: flex; align-items: center; color: white; }
-    header img { height: 40px; margin-right: 1rem; }
-    nav a {
-      color: white; margin: 0 1rem; text-decoration: none; font-weight: bold;
-    }
     .container {
       margin: 2rem auto; max-width: 700px;
       background: white; padding: 2rem;
       border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h1, h2 { margin-top: 0; }
+    ul { margin-top: 1em; }
+    li { margin-bottom: 0.5em; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="SzakiPiac logó" />
-    <nav>
-      <a href="index.html">Főoldal</a>
-      <a href="rolunk.html">Rólunk</a>
-      <a href="kapcsolat.html">Kapcsolat</a>
-      <a href="feltoltes.html">Hirdetés feltöltés</a>
-    </nav>
-  </header>
+  <script src="supabase.js"></script>
   <div class="container">
     <h1>Rólunk</h1>
     <p>A SzakiPiac célja, hogy összekösse a jó szakembereket azokkal, akik megbízható munkát keresnek.</p>
-
     <h2>Tevékenységi körök</h2>
     <ul>
       <li><strong>Építőipar:</strong> generálkivitelezés, szerkezetépítés, burkolás, festés</li>
