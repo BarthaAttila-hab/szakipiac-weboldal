@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Rólunk – SzakiPiac</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f4f4; }
+    header { background: #008F6A; color: #fff; padding: 10px 20px; display: flex; align-items: center; }
+    header img { height: 44px; margin-right: 18px; }
+    nav a { color: #fff; text-decoration: none; margin-right: 16px; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 720px; margin: 35px auto; background: #fff; border-radius: 8px; padding: 32px; }
+    aside { max-width: 320px; background: #ffeec1; border-radius: 10px; padding: 20px; min-height: 200px; margin: 40px auto 0 auto; box-shadow: 0 2px 10px #0002; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="SzakiPiac logó">
+    <nav>
+      <a href="index.html">Főoldal</a>
+      <a href="feltoltes.html">Hirdetés feltöltés</a>
+      <a href="regisztracio.html">Regisztráció</a>
+      <a href="kapcsolat.html">Kapcsolat</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h2>Rólunk</h2>
+    <p>
+      A SzakiPiac célja, hogy megbízható szakembereket és szolgáltatókat kössön össze ügyfelekkel gyorsan, biztonságosan és kényelmesen.
+    </p>
+    <ul>
+      <li>Építőipar</li>
+      <li>Villanyszerelés</li>
+      <li>Víz-gáz-fűtés</li>
+      <li>Asztalos</li>
+      <li>Költöztetés</li>
+      <li>Takarítás</li>
+      <li>Kertépítés</li>
+      <li>IT, Számítástechnika</li>
+      <li>És sok más szakma...</li>
+    </ul>
+    <p>
+      Ha bármilyen kérdésed van, keress minket elérhetőségeinken!
+    </p>
+  </div>
+  <aside>
+    <h3>Reklám helye</h3>
+    <img src="https://dummyimage.com/220x120/ededed/333333&text=Reklám+Banner" alt="Reklám" style="width:100%;margin-top:12px;border-radius:7px;">
+  </aside>
+</body>
+</html>
