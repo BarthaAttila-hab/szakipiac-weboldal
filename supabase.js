@@ -1,5 +1,5 @@
 
-const SUPABASE_URL = "supabase.com/dashboard/project/tzmcofiuqeanftviquwp";
+const SUPABASE_URL = https://supabase.com/dashboard/project/tzmcofiuqeanftviquwp/settings/api-keys
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bWNvZml1cWVhbmZ0dmlxdXdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1ODAzMjYsImV4cCI6MjA2NjE1NjMyNn0.oxD20AplWIl7p6znO0GoVxDWX7aeD_8fhFRmooS2xm4";
 
 const supabase = window.supabase
