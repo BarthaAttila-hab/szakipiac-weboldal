@@ -4,22 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin felület - SzakiPiac</title>
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f1fbe7; }
-    .container {
-      max-width: 800px; margin: 2rem auto; background: white;
-      padding: 2rem; border-radius: 12px;
-    }
-    h1 { margin-top: 0; }
-    .hidden { display: none; }
-    .ad-list { margin-top: 2rem; }
-    .ad-item { background: #f0f0f0; margin: 0.5rem 0; padding: 1rem; border-radius: 8px; }
-    .ad-item button { margin-right: 1rem; }
-  </style>
-</head>
-<body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="header.js"></script>
   <script src="supabase.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
   <div class="container">
     <h1>Admin felület</h1>
     <div id="login-section">
