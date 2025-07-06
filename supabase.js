@@ -1,5 +1,5 @@
 // Itt add meg a saját Supabase projekted URL-jét és public kulcsát!
-const SUPABASE_URL = https://supabase.com/dashboard/project/tzmcofiuqeanftviquwp;
+const SUPABASE_URL = https://eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO.supabase.com
 const SUPABASE_KEY = ;
 
 const supabase = window.supabase
