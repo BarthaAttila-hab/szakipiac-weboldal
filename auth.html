@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Bejelentkezés / Regisztráció – SzakiPiac.hu</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="supabase.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css">
 </head>
-<body><script src="header.js"></script>
+<body>
+  <script src="header.js"></script>
   <div class="container" style="max-width:400px;margin:auto;margin-top:2rem;">
     <h1 id="auth-title">Bejelentkezés</h1>
     <form id="login-form">
@@ -25,6 +25,9 @@
     </form>
     <p id="auth-error" style="color:red;text-align:center;"></p>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="supabase.js"></script>
   <script src="auth.js"></script>
 </body>
 </html>
