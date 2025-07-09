@@ -1,84 +1,32 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <title>SzakiPiac – Bejelentkezés / Regisztráció</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <meta charset="UTF-8">
+  <title>Bejelentkezés / Regisztráció – SzakiPiac.hu</title>
   <script src="header.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="supabase.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1 id="form-title">Bejelentkezés</h1>
-    <div id="status"></div>
-
+  <div class="container" style="max-width:400px;margin:auto;margin-top:2rem;">
+    <h1 id="auth-title">Bejelentkezés</h1>
     <form id="login-form">
-      <input type="email" id="login-email" placeholder="E-mail cím" required />
-      <input type="password" id="login-password" placeholder="Jelszó" required />
+      <input type="email" id="login-email" placeholder="E-mail" required>
+      <input type="password" id="login-password" placeholder="Jelszó" required>
       <button type="submit">Bejelentkezés</button>
     </form>
-
-    <form id="signup-form" style="display: none;">
-      <input type="email" id="signup-email" placeholder="E-mail cím" required />
-      <input type="password" id="signup-password" placeholder="Jelszó" required />
+    <p style="text-align:center;">
+      <a href="#" id="toggle-auth">Nincs fiókod? Regisztrálj!</a>
+    </p>
+    <form id="register-form" style="display:none;">
+      <input type="email" id="register-email" placeholder="E-mail" required>
+      <input type="password" id="register-password" placeholder="Jelszó" required>
       <button type="submit">Regisztráció</button>
     </form>
-
-    <div class="switch" id="switch-form">Nincs fiókod? Regisztrálj!</div>
+    <p id="auth-error" style="color:red;text-align:center;"></p>
   </div>
-  <script>
-    const loginForm = document.getElementById("login-form");
-    const signupForm = document.getElementById("signup-form");
-    const statusDiv = document.getElementById("status");
-    const switchForm = document.getElementById("switch-form");
-    const formTitle = document.getElementById("form-title");
-
-    let isLogin = true;
-
-    switchForm.addEventListener("click", () => {
-      isLogin = !isLogin;
-      loginForm.style.display = isLogin ? "block" : "none";
-      signupForm.style.display = isLogin ? "none" : "block";
-      formTitle.textContent = isLogin ? "Bejelentkezés" : "Regisztráció";
-      switchForm.textContent = isLogin ? "Nincs fiókod? Regisztrálj!" : "Már van fiókod? Jelentkezz be!";
-      statusDiv.textContent = "";
-    });
-
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      statusDiv.textContent = "Bejelentkezés folyamatban...";
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        statusDiv.textContent = "Hiba: " + error.message;
-      } else {
-        window.location.href = "feltoltes.html";
-      }
-    });
-
-    signupForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      statusDiv.textContent = "Regisztráció folyamatban...";
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) {
-        statusDiv.textContent = "Hiba: " + error.message;
-      } else {
-        statusDiv.textContent = "Sikeres regisztráció! Most már bejelentkezhetsz.";
-        setTimeout(() => {
-          isLogin = true;
-          loginForm.style.display = "block";
-          signupForm.style.display = "none";
-          formTitle.textContent = "Bejelentkezés";
-          switchForm.textContent = "Nincs fiókod? Regisztrálj!";
-          statusDiv.textContent = "";
-        }, 1800);
-      }
-    });
-  </script>
+  <script src="auth.js"></script>
 </body>
 </html>
+
