@@ -1,50 +1,44 @@
-const loginForm = document.getElementById("login-form");
-const signupForm = document.getElementById("signup-form");
-const statusDiv = document.getElementById("status");
-const switchForm = document.getElementById("switch-form");
-const formTitle = document.getElementById("form-title");
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+const toggle = document.getElementById('toggle-auth');
+const title = document.getElementById('auth-title');
+const error = document.getElementById('auth-error');
 
-let isLogin = true;
-
-switchForm.addEventListener("click", () => {
-  isLogin = !isLogin;
-  loginForm.style.display = isLogin ? "block" : "none";
-  signupForm.style.display = isLogin ? "none" : "block";
-  formTitle.textContent = isLogin ? "Bejelentkezés" : "Regisztráció";
-  switchForm.textContent = isLogin ? "Nincs fiókod? Regisztrálj!" : "Már van fiókod? Jelentkezz be!";
-  statusDiv.textContent = "";
-});
-
-loginForm.addEventListener("submit", async (e) => {
+toggle.onclick = (e) => {
   e.preventDefault();
-  statusDiv.textContent = "Bejelentkezés folyamatban...";
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) {
-    statusDiv.textContent = "Hiba: " + error.message;
+  if (registerForm.style.display === 'none') {
+    registerForm.style.display = '';
+    loginForm.style.display = 'none';
+    title.innerText = 'Regisztráció';
+    toggle.innerText = 'Van már fiókod? Bejelentkezés!';
   } else {
-    window.location.href = "feltoltes.html";
+    registerForm.style.display = 'none';
+    loginForm.style.display = '';
+    title.innerText = 'Bejelentkezés';
+    toggle.innerText = 'Nincs fiókod? Regisztrálj!';
   }
-});
+  error.textContent = '';
+};
 
-signupForm.addEventListener("submit", async (e) => {
+loginForm.onsubmit = async (e) => {
   e.preventDefault();
-  statusDiv.textContent = "Regisztráció folyamatban...";
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-  const { error } = await supabase.auth.signUp({ email, password });
-  if (error) {
-    statusDiv.textContent = "Hiba: " + error.message;
-  } else {
-    statusDiv.textContent = "Sikeres regisztráció! Most már bejelentkezhetsz.";
-    setTimeout(() => {
-      isLogin = true;
-      loginForm.style.display = "block";
-      signupForm.style.display = "none";
-      formTitle.textContent = "Bejelentkezés";
-      switchForm.textContent = "Nincs fiókod? Regisztrálj!";
-      statusDiv.textContent = "";
-    }, 1800);
-  }
-});
+  error.textContent = 'Bejelentkezés folyamatban...';
+  const { error: err } = await supabase.auth.signInWithPassword({
+    email: loginForm['login-email'].value,
+    password: loginForm['login-password'].value,
+  });
+  error.textContent = err ? err.message : 'Sikeres bejelentkezés!';
+  if (!err) location.href = "feltoltes.html";
+};
+
+registerForm.onsubmit = async (e) => {
+  e.preventDefault();
+  error.textContent = 'Regisztráció folyamatban...';
+  const { error: err } = await supabase.auth.signUp({
+    email: registerForm['register-email'].value,
+    password: registerForm['register-password'].value,
+  });
+  error.textContent = err ? err.message : 'Sikeres regisztráció! Ellenőrizd az e-mail fiókod!';
+  if (!err) setTimeout(() => toggle.click(), 1500);
+};
+
