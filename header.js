@@ -3,10 +3,11 @@ document.body.insertAdjacentHTML("afterbegin", `
     <div style="display:flex;align-items:center;">
       <img src="logo.png" alt="SzakiPiac logó" style="height: 40px; margin-right: 1rem;">
       <nav>
-        <a href="index.html" style="color:white;margin:0 1rem;text-decoration:none;font-weight:bold;">Főoldal</a>
-        <a href="rolunk.html" style="color:white;margin:0 1rem;text-decoration:none;font-weight:bold;">Rólunk</a>
-        <a href="kapcsolat.html" style="color:white;margin:0 1rem;text-decoration:none;font-weight:bold;">Kapcsolat</a>
-        <a href="feltoltes.html" style="color:white;margin:0 1rem;text-decoration:none;font-weight:bold;">Hirdetés feltöltés</a>
+        <a href="index.html" style="color:white;margin:0 1rem;font-weight:bold;">Főoldal</a>
+        <a href="rolunk.html" style="color:white;margin:0 1rem;font-weight:bold;">Rólunk</a>
+        <a href="kapcsolat.html" style="color:white;margin:0 1rem;font-weight:bold;">Kapcsolat</a>
+        <a href="feltoltes.html" style="color:white;margin:0 1rem;font-weight:bold;">Hirdetés feltöltés</a>
+        <a href="auth.html" style="color:white;margin:0 1rem;font-weight:bold;">Bejelentkezés</a>
       </nav>
     </div>
     <div class="reklam-sav" style="margin-left:2rem;">
@@ -16,3 +17,4 @@ document.body.insertAdjacentHTML("afterbegin", `
     </div>
   </header>
 `);
+
