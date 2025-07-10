@@ -3,22 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Bejelentkezés / Regisztráció – SzakiPiac.hu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="header.js"></script>
   <script src="supabase.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body><script src="header.js"></script>
   <div class="container" style="max-width:400px;margin:auto;margin-top:2rem;">
     <h1 id="auth-title">Bejelentkezés</h1>
     <form id="login-form">
       <input type="email" id="login-email" placeholder="E-mail" required>
       <input type="password" id="login-password" placeholder="Jelszó" required>
       <button type="submit">Bejelentkezés</button>
-      <div style="text-align:right;margin-top:4px;">
-        <a href="#" id="forgot-link" style="color:#2d8532;font-size:0.95em;">Elfelejtett jelszó?</a>
-      </div>
     </form>
     <p style="text-align:center;">
       <a href="#" id="toggle-auth">Nincs fiókod? Regisztrálj!</a>
@@ -28,15 +23,9 @@
       <input type="password" id="register-password" placeholder="Jelszó" required>
       <button type="submit">Regisztráció</button>
     </form>
-    <form id="forgot-form" style="display:none;">
-      <input type="email" id="forgot-email" placeholder="E-mail cím" required>
-      <button type="submit">Jelszó helyreállítás</button>
-      <div style="margin-top:8px;">
-        <a href="#" id="back-to-login" style="color:#2d8532;font-size:0.95em;">Vissza a bejelentkezéshez</a>
-      </div>
-    </form>
     <p id="auth-error" style="color:red;text-align:center;"></p>
   </div>
   <script src="auth.js"></script>
 </body>
 </html>
+

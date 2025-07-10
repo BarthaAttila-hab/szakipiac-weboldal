@@ -63,7 +63,6 @@
       radios.forEach(r => r.addEventListener("change", updateImageInputs));
       updateImageInputs();
 
-      // ADMIN kivétel: fizetés NÉLKÜL menthet
       if (user.email === ADMIN) {
         const btn = document.createElement("button");
         btn.innerText = "Hirdetés mentése (admin)";
@@ -153,6 +152,8 @@
     }
 
     init();
-  </script>
+  </script><script src="header.js"></script>
+
 </body>
 </html>
+
