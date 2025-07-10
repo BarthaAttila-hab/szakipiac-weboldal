@@ -1,159 +1,51 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <title>SzakiPiac – Hirdetés feltöltés</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="header.js"></script>
-  <script src="supabase.js"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Hirdetés feltöltése</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Hirdetés feltöltése</h1>
-    <div id="status"></div>
-    <input id="title" placeholder="Cím" />
-    <textarea id="desc" placeholder="Leírás"></textarea>
-    <input id="price" type="number" placeholder="Ár (Ft)" />
-    <select id="category">
-      <option value="">– Válassz kategóriát –</option>
-      <option>Építőipar</option>
-      <option>Kertépítés</option>
-      <option>Lakberendezés</option>
-      <option>Számítástechnika</option>
-    </select>
-    <div class="packages">
-      <label>
-        <input type="radio" name="csomag" value="Alap" checked>
-        <strong>Alap csomag</strong> – Ingyenes – 2 kép – 7 nap érvényesség
-      </label>
-      <label>
-        <input type="radio" name="csomag" value="Prémium">
-        <strong>Prémium csomag</strong> – 990 Ft – 3 kép – 14 nap érvényesség – Kiemelt megjelenés
-      </label>
-      <label>
-        <input type="radio" name="csomag" value="Extra">
-        <strong>Extra csomag</strong> – 1990 Ft – 5 kép – 30 nap érvényesség – Kiemelt megjelenés
-      </label>
-    </div>
-    <div id="image-uploads"></div>
-    <div id="paypal-button-container"></div>
-  </div>
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
-  <script>
-    const ADMIN = "atika.76@windowslive.com";
-    let user = null;
-
-    function showMessage(msg, type) {
-      const s = document.getElementById("status");
-      s.innerHTML = `<div class="msg ${type}">${msg}</div>`;
-    }
-
-    async function init() {
-      const { data } = await supabase.auth.getUser();
-      if (!data?.user) {
-        showMessage("Hirdetés feltöltéséhez <b>be kell jelentkezned</b>!", "error");
-        setTimeout(() => { window.location.href = "auth.html"; }, 2000);
-        return;
-      }
-      user = data.user;
-
-      const radios = document.querySelectorAll("input[name='csomag']");
-      radios.forEach(r => r.addEventListener("change", updateImageInputs));
-      updateImageInputs();
-
-      if (user.email === ADMIN) {
-        const btn = document.createElement("button");
-        btn.innerText = "Hirdetés mentése (admin)";
-        btn.onclick = saveAd;
-        btn.style.marginTop = "10px";
-        btn.style.padding = "10px";
-        btn.style.width = "100%";
-        document.getElementById("paypal-button-container").appendChild(btn);
-        return;
-      }
-
-      paypal.Buttons({
-        createOrder: (data, actions) => {
-          const selected = document.querySelector("input[name='csomag']:checked").value;
-          let amount = "0.00";
-          if (selected === "Prémium") amount = "990.00";
-          if (selected === "Extra") amount = "1990.00";
-          return actions.order.create({
-            purchase_units: [{ amount: { value: amount } }]
-          });
-        },
-        onApprove: async (data, actions) => {
-          await actions.order.capture();
-          saveAd();
-        }
-      }).render("#paypal-button-container");
-    }
-
-    function updateImageInputs() {
-      const container = document.getElementById("image-uploads");
-      container.innerHTML = "";
-      const selected = document.querySelector("input[name='csomag']:checked").value;
-      let count = 0;
-      if (selected === "Alap") count = 2;
-      if (selected === "Prémium") count = 3;
-      if (selected === "Extra") count = 5;
-      for (let i = 1; i <= count; i++) {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.id = "image" + i;
-        container.appendChild(input);
-      }
-    }
-
-    async function saveAd() {
-      const title = document.getElementById("title").value;
-      const desc = document.getElementById("desc").value;
-      const price = document.getElementById("price").value;
-      const category = document.getElementById("category").value;
-      const csomag = document.querySelector("input[name='csomag']:checked").value;
-
-      if (!title || !desc || !price || !category) {
-        showMessage("Tölts ki minden mezőt!", "error");
-        return;
-      }
-
-      let imageUrls = [];
-      const inputs = document.querySelectorAll("#image-uploads input[type='file']");
-      for (let i = 0; i < inputs.length; i++) {
-        const file = inputs[i].files[0];
-        if (file) {
-          const { data, error } = await supabase.storage.from("hirdetes-kepek").upload(`hirdetesek/${Date.now()}-${file.name}`, file);
-          if (!error) {
-            const { data: urlData } = supabase.storage.from("hirdetes-kepek").getPublicUrl(data.path);
-            imageUrls.push(urlData.publicUrl);
-          }
-        }
-      }
-
-      const { error } = await supabase.from("hirdetesek").insert({
-        cim: title,
-        leiras: desc,
-        ar: price,
-        kategoria: category,
-        csomag: csomag,
-        jovahagyott: false,
-        kepek: imageUrls
-      });
-
-      if (error) {
-        showMessage("Hiba: " + error.message, "error");
-      } else {
-        showMessage("Hirdetés elmentve! Jóváhagyás után megjelenik.", "success");
-        setTimeout(() => { location.href = "index.html"; }, 1800);
-      }
-    }
-
-    init();
-  </script><script src="header.js"></script>
-
+    <h2>Hirdetés feltöltése</h2>
+    <form id="feltoltesForm">
+        <label>
+            Cím:<br>
+            <input type="text" id="title" name="title" required>
+        </label><br>
+        <label>
+            Leírás:<br>
+            <textarea id="description" name="description" required></textarea>
+        </label><br>
+        <label>
+            Ár (Ft):<br>
+            <input type="number" id="price" name="price" required>
+        </label><br>
+        
+        <div class="csomag-valaszto-oszlop">
+            <label>
+                <input type="radio" name="csomag" value="alap" checked>
+                <strong>Alap csomag</strong> – Ingyenes – 2 kép – 7 nap érvényesség
+            </label>
+            <label>
+                <input type="radio" name="csomag" value="premium">
+                <strong>Prémium csomag</strong> – 990 Ft – 3 kép – 14 nap érvényesség – Kiemelt megjelenés
+            </label>
+            <label>
+                <input type="radio" name="csomag" value="extra">
+                <strong>Extra csomag</strong> – 1990 Ft – 5 kép – 30 nap érvényesség – Kiemelt megjelenés
+            </label>
+        </div>
+        <div style="margin-top: 15px;">
+            <input type="file" id="file1" name="kep1">
+            <input type="file" id="file2" name="kep2">
+            <input type="file" id="file3" name="kep3">
+            <input type="file" id="file4" name="kep4">
+            <input type="file" id="file5" name="kep5">
+        </div>
+        <br>
+        <button type="submit">Hirdetés mentése</button>
+    </form>
+    <div id="result"></div>
+    <script src="feltoltes.js"></script>
 </body>
 </html>
-
