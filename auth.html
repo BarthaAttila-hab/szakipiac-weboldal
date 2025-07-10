@@ -2,30 +2,32 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Bejelentkezés / Regisztráció – SzakiPiac.hu</title>
+  <title>SzakiPiac – Bejelentkezés / Regisztráció</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="supabase.js"></script>
-  <link rel="stylesheet" href="style.css">
 </head>
-<body><script src="header.js"></script>
-  <div class="container" style="max-width:400px;margin:auto;margin-top:2rem;">
-    <h1 id="auth-title">Bejelentkezés</h1>
-    <form id="login-form">
-      <input type="email" id="login-email" placeholder="E-mail" required>
-      <input type="password" id="login-password" placeholder="Jelszó" required>
-      <button type="submit">Bejelentkezés</button>
+<body>
+  <div class="auth-box">
+    <h2 id="auth-title">Bejelentkezés</h2>
+
+    <form id="auth-form">
+      <input type="email" id="email-input" placeholder="Email cím" required autocomplete="username"><br>
+      <input type="password" id="password-input" placeholder="Jelszó" required autocomplete="current-password"><br>
+
+      <button type="submit" id="auth-btn">Bejelentkezés</button>
     </form>
-    <p style="text-align:center;">
-      <a href="#" id="toggle-auth">Nincs fiókod? Regisztrálj!</a>
-    </p>
-    <form id="register-form" style="display:none;">
-      <input type="email" id="register-email" placeholder="E-mail" required>
-      <input type="password" id="register-password" placeholder="Jelszó" required>
-      <button type="submit">Regisztráció</button>
-    </form>
-    <p id="auth-error" style="color:red;text-align:center;"></p>
+
+    <div style="margin: 10px 0;">
+      <a href="#" id="switch-link">Nincs fiókod? Regisztrálj!</a>
+      <span style="margin: 0 6px;">|</span>
+      <a href="#" id="forgot-pw-link">Elfelejtett jelszó?</a>
+    </div>
+
+    <div id="auth-message" style="color: red; min-height: 1.5em; margin-top: 8px;"></div>
   </div>
   <script src="auth.js"></script>
 </body>
 </html>
+
 
