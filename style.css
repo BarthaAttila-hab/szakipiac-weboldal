@@ -69,3 +69,15 @@ button[disabled] { opacity: 0.6; }
   .container { padding: 0.5rem; }
   .ad-imgs img { max-width: 60px; }
 }
+.csomag-valaszto-oszlop {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+.csomag-valaszto-oszlop label {
+    font-size: 1.08em;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
