@@ -1,5 +1,3 @@
-// auth.js
-
 let mode = "login"; // vagy "register" vagy "reset"
 
 const form = document.getElementById("auth-form");
@@ -40,7 +38,6 @@ function setMode(newMode) {
 
 setMode("login");
 
-// váltás login/regisztráció/visszaállítás között
 switchLink.addEventListener("click", (e) => {
   e.preventDefault();
   if (mode === "login") setMode("register");
@@ -60,7 +57,6 @@ form.addEventListener("submit", async (e) => {
   const password = passwordInput.value;
 
   if (mode === "login") {
-    // BEJELENTKEZÉS
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       message.textContent = "Hiba: " + (error.message || "Hibás email vagy jelszó.");
@@ -70,7 +66,6 @@ form.addEventListener("submit", async (e) => {
       setTimeout(() => { window.location.href = "index.html"; }, 800);
     }
   } else if (mode === "register") {
-    // REGISZTRÁCIÓ
     if (password.length < 6) {
       message.textContent = "A jelszónak legalább 6 karakteresnek kell lennie.";
       return;
@@ -84,7 +79,6 @@ form.addEventListener("submit", async (e) => {
       setMode("login");
     }
   } else if (mode === "reset") {
-    // JELSZÓ VISSZAÁLLÍTÁS
     const { error } = await supabase.auth.resetPasswordForEmail(email);
     if (error) {
       message.textContent = "Hiba: " + (error.message || "Nem sikerült elküldeni a jelszó-visszaállító emailt.");
