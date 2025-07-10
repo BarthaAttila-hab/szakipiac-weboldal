@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <title>SzakiPiac – Hirdetés feltöltés</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="header.js"></script>
+  <script src="supabase.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <script src="header.js"></script>
   <div class="container">
     <h1>Hirdetés feltöltése</h1>
     <div id="status"></div>
@@ -38,8 +40,6 @@
     <div id="image-uploads"></div>
     <div id="paypal-button-container"></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="supabase.js"></script>
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
   <script>
     const ADMIN = "atika.76@windowslive.com";
@@ -63,95 +63,6 @@
       radios.forEach(r => r.addEventListener("change", updateImageInputs));
       updateImageInputs();
 
+      // ADMIN kivétel: fizetés NÉLKÜL menthet
       if (user.email === ADMIN) {
         const btn = document.createElement("button");
-        btn.innerText = "Hirdetés mentése (admin)";
-        btn.onclick = saveAd;
-        btn.style.marginTop = "10px";
-        btn.style.padding = "10px";
-        btn.style.width = "100%";
-        document.getElementById("paypal-button-container").appendChild(btn);
-        return;
-      }
-
-      paypal.Buttons({
-        createOrder: (data, actions) => {
-          const selected = document.querySelector("input[name='csomag']:checked").value;
-          let amount = "0.00";
-          if (selected === "Prémium") amount = "990.00";
-          if (selected === "Extra") amount = "1990.00";
-          return actions.order.create({
-            purchase_units: [{ amount: { value: amount } }]
-          });
-        },
-        onApprove: async (data, actions) => {
-          await actions.order.capture();
-          saveAd();
-        }
-      }).render("#paypal-button-container");
-    }
-
-    function updateImageInputs() {
-      const container = document.getElementById("image-uploads");
-      container.innerHTML = "";
-      const selected = document.querySelector("input[name='csomag']:checked").value;
-      let count = 0;
-      if (selected === "Alap") count = 2;
-      if (selected === "Prémium") count = 3;
-      if (selected === "Extra") count = 5;
-      for (let i = 1; i <= count; i++) {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.id = "image" + i;
-        container.appendChild(input);
-      }
-    }
-
-    async function saveAd() {
-      const title = document.getElementById("title").value;
-      const desc = document.getElementById("desc").value;
-      const price = document.getElementById("price").value;
-      const category = document.getElementById("category").value;
-      const csomag = document.querySelector("input[name='csomag']:checked").value;
-
-      if (!title || !desc || !price || !category) {
-        showMessage("Tölts ki minden mezőt!", "error");
-        return;
-      }
-
-      let imageUrls = [];
-      const inputs = document.querySelectorAll("#image-uploads input[type='file']");
-      for (let i = 0; i < inputs.length; i++) {
-        const file = inputs[i].files[0];
-        if (file) {
-          const { data, error } = await supabase.storage.from("hirdetes-kepek").upload(`hirdetesek/${Date.now()}-${file.name}`, file);
-          if (!error) {
-            const { data: urlData } = supabase.storage.from("hirdetes-kepek").getPublicUrl(data.path);
-            imageUrls.push(urlData.publicUrl);
-          }
-        }
-      }
-
-      const { error } = await supabase.from("hirdetesek").insert({
-        cim: title,
-        leiras: desc,
-        ar: price,
-        kategoria: category,
-        csomag: csomag,
-        jovahagyott: false,
-        kepek: imageUrls
-      });
-
-      if (error) {
-        showMessage("Hiba: " + error.message, "error");
-      } else {
-        showMessage("Hirdetés elmentve! Jóváhagyás után megjelenik.", "success");
-        setTimeout(() => { location.href = "index.html"; }, 1800);
-      }
-    }
-
-    init();
-  </script>
-</body>
-</html>
