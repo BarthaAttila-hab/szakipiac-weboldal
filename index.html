@@ -2,65 +2,38 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>SzakiPiac.hu - Főoldal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="logo.png">
-  <link rel="stylesheet" href="style.css">
-  <!-- Supabase JS SDK CDN -->
+  <title>Supabase kategória teszt</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script defer src="header.js"></script>
 </head>
-<body style="background: #fdfdea;">
-  <!-- Fejléc -->
-  <div id="header"></div>
-  
-  <div class="main-container">
-    <div class="welcome-box">
-      <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-      <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
-      <input type="text" id="search" placeholder="Keresés a hirdetésekben..." style="width:100%;max-width:600px;margin-bottom:15px;">
-      <br>
-      <select id="kategoria-valaszto" style="width:100%;max-width:600px;padding:12px 7px;font-size:1.05em;border-radius:6px;border:1px solid #ccc;">
-        <option value="">Összes kategória</option>
-      </select>
-      <!-- Hirdetések listája később -->
-      <div id="hirdetesek-lista"></div>
-    </div>
-    <div class="reklam-oldal">
-      <a href="#">
-        <img src="reklam.png" alt="Hirdess itt!" style="width:260px;max-width:90%;">
-      </a>
-      <div style="text-align:center;color:#1be92b;font-weight:bold;font-size:1.07em;margin-top:4px;">
-        Hirdess nálunk!
-      </div>
-    </div>
-  </div>
-  
-  <!-- Supabase kategória betöltés -->
+<body>
+  <h1>Kategória teszt</h1>
+  <select id="kategoria">
+    <option>Várj, tölt...</option>
+  </select>
   <script>
-    // Itt legyenek a saját Supabase adataid!
     const SUPABASE_URL = "https://cvcxdeunzlhcrayutuew.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2Y3hkZXVuemxoY3JheXV0dWV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNjgyMTQsImV4cCI6MjA2Nzc0NDIxNH0.mmp-rbNPxoPJmotz5NY5XLAwdhHBkvoDKQxY6V1iSbo";
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    document.addEventListener("DOMContentLoaded", async () => {
-      const select = document.getElementById("kategoria-valaszto");
-      try {
-        const { data, error } = await supabase.from("kategoriak").select("*").order("id", { ascending: true });
-        if (error) {
-          console.error("Kategória betöltési hiba:", error.message);
-        } else if (data && data.length > 0) {
-          data.forEach(row => {
-            const opt = document.createElement("option");
-            opt.value = row.id;
-            opt.textContent = row.nev;
-            select.appendChild(opt);
-          });
-        }
-      } catch (err) {
-        console.error("Kategória betöltési JS hiba:", err);
+    async function betoltKategoriak() {
+      const select = document.getElementById("kategoria");
+      select.innerHTML = "<option>Betöltés...</option>";
+      const { data, error } = await supabase.from("kategoriak").select("*").order("id", { ascending: true });
+      select.innerHTML = "";
+      if (error) {
+        select.innerHTML = "<option>HIBA! " + error.message + "</option>";
+      } else if (data && data.length) {
+        data.forEach(row => {
+          let o = document.createElement("option");
+          o.value = row.id;
+          o.textContent = row.nev;
+          select.appendChild(o);
+        });
+      } else {
+        select.innerHTML = "<option>Nincs adat</option>";
       }
-    });
+    }
+    betoltKategoriak();
   </script>
 </body>
 </html>
