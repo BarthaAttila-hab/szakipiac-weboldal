@@ -2,125 +2,94 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Főoldal – SzakiPiac</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="header.js"></script>
-  <script src="supabase.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>SzakiPiac.hu – Főoldal</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="icon-192.png" sizes="192x192">
 </head>
 <body>
-  <div class="container">
-    <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-    <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
-
-    <div class="filters">
-      <input type="text" id="kereses" placeholder="Keresés a hirdetésekben..." />
-      <select id="kategoriavalaszto">
-        <option value="">Összes kategória</option>
-        <option value="Építőipar">Építőipar</option>
-        <option value="Kertépítés">Kertépítés</option>
-        <option value="Lakberendezés">Lakberendezés</option>
-        <option value="Számítástechnika">Számítástechnika</option>
-      </select>
-    </div>
-
-    <div id="ads-container">
-      <p>Hirdetések betöltése...</p>
-    </div>
+  <script src="header.js"></script>
+  <div class="container oldal-elrendezes">
+    <main class="main-content">
+      <div class="welcome-card">
+        <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
+        <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
+        <input type="text" placeholder="Keresés a hirdetésekben..." style="width:100%;margin:18px 0 10px 0;padding:12px;font-size:18px;border-radius:6px;border:1px solid #ddd;">
+        <select style="width:100%;padding:10px;font-size:17px;border-radius:6px;border:1px solid #ddd;">
+          <option>Összes kategória</option>
+          <!-- ide jönnek a kategóriák -->
+        </select>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <div class="ad-block">
+        <img src="reklam1.png" alt="Reklám" style="width:100%;border-radius:10px;">
+        <div style="font-size:15px;margin:8px 0 0 0;color:#333;">
+          <b>Hirdess nálunk!</b><br>
+          Itt jelenhet meg céged, Facebook-oldalad vagy bármilyen fizetett banner.<br>
+          <a href="mailto:bartha.attila76@gmail.com">Érdekel a hirdetés?</a>
+        </div>
+      </div>
+      <!-- Ha több reklám kell, ide másold még egyszer ezt a blokkot -->
+    </aside>
   </div>
-  <script>
-    let allAds = [];
-    const adsContainer = document.getElementById("ads-container");
-    const searchInput = document.getElementById("kereses");
-    const categorySelect = document.getElementById("kategoriavalaszto");
-
-    async function loadAds() {
-      const { data, error } = await supabase
-        .from("hirdetesek")
-        .select("*")
-        .eq("jovahagyott", true)
-        .order("id", { ascending: false });
-
-      if (error || !data) {
-        adsContainer.innerHTML = "<p>Nem sikerült betölteni a hirdetéseket.</p>";
-        return;
+  <style>
+    .oldal-elrendezes {
+      display: flex;
+      align-items: flex-start;
+      max-width: 1200px;
+      margin: 40px auto 0 auto;
+      padding: 0 12px;
+    }
+    .main-content {
+      flex: 1;
+      margin-right: 30px;
+      min-width: 0;
+    }
+    .sidebar {
+      width: 270px;
+      min-width: 200px;
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .ad-block {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px #e5e5e5;
+      padding: 12px;
+      margin-bottom: 6px;
+      min-height: 110px;
+    }
+    .welcome-card {
+      background: #fffef7;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px #eee;
+      padding: 34px 30px;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+    @media (max-width: 900px) {
+      .oldal-elrendezes {
+        flex-direction: column;
       }
-      allAds = data;
-      renderAds();
-    }
-
-    function napLejaratig(ad) {
-      if (!ad.created_at || !ad.csomag) return "";
-      const letrehoz = new Date(ad.created_at);
-      let nap = 7;
-      if (ad.csomag === "Prémium") nap = 14;
-      if (ad.csomag === "Extra") nap = 30;
-      const lejar = new Date(letrehoz.getTime() + nap * 86400000);
-      const most = new Date();
-      const diff = Math.ceil((lejar - most) / 86400000);
-      if (diff < 0) return `<span style="color:red;">Lejárt</span>`;
-      return `Érvényes még <b>${diff} napig</b>`;
-    }
-
-    function renderAds() {
-      const search = searchInput.value.toLowerCase();
-      const selectedCategory = categorySelect.value;
-
-      const categories = {
-        "Építőipar": [],
-        "Kertépítés": [],
-        "Lakberendezés": [],
-        "Számítástechnika": []
-      };
-
-      allAds.forEach(ad => {
-        const text = ((ad.cim || "") + " " + (ad.leiras || "")).toLowerCase();
-        if ((search === "" || text.includes(search)) &&
-            (selectedCategory === "" || ad.kategoria === selectedCategory)) {
-          if (categories[ad.kategoria]) {
-            categories[ad.kategoria].push(ad);
-          }
-        }
-      });
-
-      let html = "";
-
-      for (const [kategoria, hirdetesek] of Object.entries(categories)) {
-        if (hirdetesek.length > 0) {
-          html += `<div class="category"><h2>${kategoria}</h2>`;
-          hirdetesek.forEach(ad => {
-            const kiemelt = (ad.csomag === "Prémium" || ad.csomag === "Extra");
-            html += `
-              <div class="ad-item${kiemelt ? ' kiemelt' : ''}">
-                ${kiemelt ? `<span class="kiemelt-matrica">KIEMELT</span>` : ""}
-                <strong>${ad.cim || 'Hirdetés címe'}</strong>
-                <p>${ad.leiras || ''}</p>
-                <p><em>${ad.ar ? ad.ar + ' Ft' : ''}</em></p>
-                <div class="ad-imgs">
-                  ${(ad.kepek || []).map(url => `<img src="${url}" alt="Kép">`).join("")}
-                </div>
-                <div style="font-size:0.95em;color:#2d8532;margin-top:8px;">
-                  ${napLejaratig(ad)}
-                </div>
-                <div style="font-size:0.95em;margin-top:4px;">
-                  Csomag: <b>${ad.csomag || '-'}</b>
-                </div>
-              </div>
-            `;
-          });
-          html += "</div>";
-        }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        gap: 12px;
+        position: static;
+        margin-top: 30px;
       }
-
-      adsContainer.innerHTML = html || "<p>Nincs találat.</p>";
+      .ad-block {
+        width: 100%;
+        min-width: 140px;
+      }
+      .main-content {
+        margin-right: 0;
+      }
     }
-
-    searchInput.addEventListener("input", renderAds);
-    categorySelect.addEventListener("change", renderAds);
-
-    loadAds();
-  </script><script src="header.js"></script>
-
+  </style>
 </body>
 </html>
