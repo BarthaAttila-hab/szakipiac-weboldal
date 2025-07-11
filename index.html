@@ -2,94 +2,109 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SzakiPiac.hu – Főoldal</title>
+  <link rel="icon" type="image/png" href="logo.png" />
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="icon-192.png" sizes="192x192">
-</head>
-<body>
-  <script src="header.js"></script>
-  <div class="container oldal-elrendezes">
-    <main class="main-content">
-      <div class="welcome-card">
-        <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-        <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
-        <input type="text" placeholder="Keresés a hirdetésekben..." style="width:100%;margin:18px 0 10px 0;padding:12px;font-size:18px;border-radius:6px;border:1px solid #ddd;">
-        <select style="width:100%;padding:10px;font-size:17px;border-radius:6px;border:1px solid #ddd;">
-          <option>Összes kategória</option>
-          <!-- ide jönnek a kategóriák -->
-        </select>
-      </div>
-    </main>
-    <aside class="sidebar">
-      <div class="ad-block">
-        <img src="reklam1.png" alt="Reklám" style="width:100%;border-radius:10px;">
-        <div style="font-size:15px;margin:8px 0 0 0;color:#333;">
-          <b>Hirdess nálunk!</b><br>
-          Itt jelenhet meg céged, Facebook-oldalad vagy bármilyen fizetett banner.<br>
-          <a href="mailto:bartha.attila76@gmail.com">Érdekel a hirdetés?</a>
-        </div>
-      </div>
-      <!-- Ha több reklám kell, ide másold még egyszer ezt a blokkot -->
-    </aside>
-  </div>
   <style>
-    .oldal-elrendezes {
+    body {
+      margin: 0;
+      background: #fcfcee;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    .container {
       display: flex;
+      justify-content: center;
       align-items: flex-start;
-      max-width: 1200px;
-      margin: 40px auto 0 auto;
-      padding: 0 12px;
+      padding: 40px 0 0 0;
+      gap: 32px;
+      min-height: 80vh;
     }
     .main-content {
-      flex: 1;
-      margin-right: 30px;
-      min-width: 0;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 14px #0001;
+      padding: 40px 36px 36px 36px;
+      max-width: 850px;
+      flex: 1 1 600px;
+      margin-top: 16px;
     }
     .sidebar {
-      width: 270px;
-      min-width: 200px;
-      position: sticky;
-      top: 100px;
+      width: 300px;
+      min-width: 220px;
+      max-width: 320px;
+      margin-top: 16px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 14px #0001;
+      padding: 20px 20px 28px 20px;
+      text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      align-items: center;
     }
-    .ad-block {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px #e5e5e5;
-      padding: 12px;
-      margin-bottom: 6px;
-      min-height: 110px;
+    .sidebar img {
+      width: 100%;
+      max-width: 260px;
+      margin-bottom: 12px;
+      border-radius: 16px;
+      border: 1px solid #eee;
     }
-    .welcome-card {
-      background: #fffef7;
-      border-radius: 15px;
-      box-shadow: 0 2px 10px #eee;
-      padding: 34px 30px;
-      margin-bottom: 20px;
-      max-width: 700px;
+    .sidebar .ad-label {
+      color: #6441a5;
+      font-weight: bold;
+      font-size: 1.13em;
+      margin-bottom: 4px;
     }
-    @media (max-width: 900px) {
-      .oldal-elrendezes {
+    @media (max-width: 1100px) {
+      .container {
         flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
       }
       .sidebar {
         width: 100%;
-        flex-direction: row;
-        gap: 12px;
-        position: static;
-        margin-top: 30px;
+        max-width: 100%;
+        margin: 0 auto;
       }
-      .ad-block {
-        width: 100%;
-        min-width: 140px;
+    }
+    @media (max-width: 700px) {
+      .main-content, .sidebar {
+        padding: 16px 5vw;
       }
       .main-content {
-        margin-right: 0;
+        font-size: 1em;
       }
     }
   </style>
+</head>
+<body>
+  <!-- Fejléc -->
+  <script src="header.js"></script>
+  <div class="container">
+    <!-- Fő tartalom -->
+    <main class="main-content">
+      <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
+      <p>
+        Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!
+      </p>
+      <input type="text" placeholder="Keresés a hirdetésekben..." style="width: 100%; padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid #ccd; margin: 18px 0 12px 0;">
+      <select style="width: 100%; padding: 10px; font-size: 1.1em; border-radius: 8px; border: 1px solid #ccd; margin-bottom: 18px;">
+        <option>Összes kategória</option>
+      </select>
+      <!-- Itt lesznek majd a hirdetések -->
+    </main>
+    <!-- Reklám, oldalsáv -->
+    <aside class="sidebar">
+      <div class="ad-label">Reklám</div>
+      <a href="https://szakipiac.hu" target="_blank">
+        <img src="reklam1.png" alt="Reklám">
+      </a>
+      <div style="color: #888; font-size: 0.92em; margin-top: 7px;">
+        Itt akár több hirdetés vagy ajánlat is lehet majd.<br>
+        <span style="color:#41a561">Hirdess nálunk!</span>
+      </div>
+    </aside>
+  </div>
 </body>
 </html>
