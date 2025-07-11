@@ -2,109 +2,114 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SzakiPiac.hu – Főoldal</title>
-  <link rel="icon" type="image/png" href="logo.png" />
+  <title>SzakiPiac.hu - Főoldal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
+  <script defer src="supabase.js"></script>
+  <script defer src="header.js"></script>
   <style>
-    body {
-      margin: 0;
-      background: #fcfcee;
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
-    .container {
+    .main-container {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: flex-start;
-      padding: 40px 0 0 0;
-      gap: 32px;
-      min-height: 80vh;
+      margin: 60px auto 0 auto;
+      max-width: 1200px;
+      padding: 0 24px;
     }
-    .main-content {
+    .welcome-box {
       background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 14px #0001;
-      padding: 40px 36px 36px 36px;
-      max-width: 850px;
-      flex: 1 1 600px;
-      margin-top: 16px;
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      flex: 1;
+      min-width: 350px;
+      margin-right: 32px;
     }
-    .sidebar {
-      width: 300px;
-      min-width: 220px;
-      max-width: 320px;
-      margin-top: 16px;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 14px #0001;
-      padding: 20px 20px 28px 20px;
-      text-align: center;
+    .reklam-oldal {
+      width: 250px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 32px;
     }
-    .sidebar img {
-      width: 100%;
-      max-width: 260px;
-      margin-bottom: 12px;
-      border-radius: 16px;
-      border: 1px solid #eee;
+    .reklam-oldal img {
+      width: 220px;
+      border-radius: 18px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
     }
-    .sidebar .ad-label {
-      color: #6441a5;
-      font-weight: bold;
-      font-size: 1.13em;
-      margin-bottom: 4px;
+    .reklam-oldal p {
+      text-align: center;
+      color: #767676;
+      font-size: 1.05em;
+      margin-top: 0;
     }
-    @media (max-width: 1100px) {
-      .container {
+    @media (max-width: 900px) {
+      .main-container {
         flex-direction: column;
         align-items: stretch;
-        gap: 16px;
+        max-width: 100vw;
       }
-      .sidebar {
+      .welcome-box {
+        margin-right: 0;
+        margin-bottom: 24px;
+        padding: 32px 8px;
+      }
+      .reklam-oldal {
         width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
+        align-items: center;
+        margin-top: 0;
       }
-    }
-    @media (max-width: 700px) {
-      .main-content, .sidebar {
-        padding: 16px 5vw;
-      }
-      .main-content {
-        font-size: 1em;
+      .reklam-oldal img {
+        width: 90%;
+        max-width: 260px;
       }
     }
   </style>
 </head>
-<body>
-  <!-- Fejléc -->
-  <script src="header.js"></script>
-  <div class="container">
-    <!-- Fő tartalom -->
-    <main class="main-content">
+<body style="background: #fdfdea;">
+
+  <!-- Fejléc betöltés -->
+  <div id="header"></div>
+
+  <div class="main-container">
+    <div class="welcome-box">
       <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-      <p>
-        Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!
-      </p>
-      <input type="text" placeholder="Keresés a hirdetésekben..." style="width: 100%; padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid #ccd; margin: 18px 0 12px 0;">
-      <select style="width: 100%; padding: 10px; font-size: 1.1em; border-radius: 8px; border: 1px solid #ccd; margin-bottom: 18px;">
-        <option>Összes kategória</option>
+      <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
+      <input type="text" id="search" placeholder="Keresés a hirdetésekben..." style="width:100%;max-width:600px;margin:18px 0;padding:13px 10px;font-size:1.1em;border-radius:7px;border:1px solid #ccc;">
+      <br>
+      <select id="kategoria-valaszto" style="width:100%;max-width:600px;padding:12px 7px;font-size:1.05em;border-radius:7px;border:1px solid #ccc;">
+        <option value="">Összes kategória</option>
+        <!-- kategóriák JS-ből töltve -->
       </select>
-      <!-- Itt lesznek majd a hirdetések -->
-    </main>
-    <!-- Reklám, oldalsáv -->
-    <aside class="sidebar">
-      <div class="ad-label">Reklám</div>
-      <a href="https://szakipiac.hu" target="_blank">
-        <img src="reklam1.png" alt="Reklám">
-      </a>
-      <div style="color: #888; font-size: 0.92em; margin-top: 7px;">
-        Itt akár több hirdetés vagy ajánlat is lehet majd.<br>
-        <span style="color:#41a561">Hirdess nálunk!</span>
-      </div>
-    </aside>
+      <!-- Hirdetések listája, későbbi fejlesztéshez -->
+      <div id="hirdetesek-lista"></div>
+    </div>
+    <div class="reklam-oldal">
+      <img src="reklam.png" alt="Reklám">
+      <p>Itt akár több hirdetés vagy ajánlat is lehet majd.<br>
+      <span style="color:#18af18;font-weight:500">Hirdess nálunk!</span></p>
+    </div>
   </div>
+
+  <script>
+    // Kategóriák betöltése - ha van Supabase integráció!
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof supabase !== "undefined") {
+        supabase.from("kategoriak").select("*").then(({ data, error }) => {
+          if (!error && data && data.length > 0) {
+            const select = document.getElementById("kategoria-valaszto");
+            data.forEach(row => {
+              let opt = document.createElement("option");
+              opt.value = row.id;
+              opt.innerText = row.nev || row.name || "Kategória";
+              select.appendChild(opt);
+            });
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
