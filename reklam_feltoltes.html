@@ -2,34 +2,29 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Reklám feltöltés – SzakiPiac</title>
+  <title>Reklám feltöltése – SzakiPiac.hu</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="reklam.js" defer></script>
+  <style>
+    .container { max-width: 500px; margin: 60px auto; background: #fff; border-radius: 24px; box-shadow: 0 0 32px #efefef; padding: 32px; }
+    .pay-btn { background: #ffce39; color: #222; font-weight: bold; border: none; border-radius: 10px; font-size: 1.2rem; padding: 14px 30px; margin-top: 16px; cursor: pointer; }
+    label { font-size: 1.1rem; margin-top: 16px; display: block; }
+    input, button { margin-bottom: 12px; }
+    .success { color: green; font-weight: bold; font-size: 1.1rem; margin: 12px 0 0 0;}
+  </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="SzakiPiac logo" class="logo">
-    <nav>
-      <a href="index.html">Főoldal</a>
-      <a href="rolunk.html">Rólunk</a>
-      <a href="kapcsolat.html">Kapcsolat</a>
-      <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
-      <a href="bejelentkezes.html">Bejelentkezés</a>
-    </nav>
-  </header>
+  <!-- Itt marad a fejléc! -->
   <div class="container">
     <h2>Reklám feltöltése</h2>
-    <form id="reklam-form">
-      <label>Kép feltöltése (jpg, png, max 1 db):<br>
-        <input type="file" id="reklam-kep" accept="image/png, image/jpeg" required>
-      </label><br>
-      <label>Cél URL (pl. https://valami.hu):<br>
-        <input type="url" id="reklam-link" required>
-      </label><br>
-      <button type="button" id="payBtn">Fizetés PayPal-lal (1490 Ft)</button>
-      <div id="reklam-uzenet"></div>
+    <form id="reklamForm" enctype="multipart/form-data">
+      <label>Kép (JPG vagy PNG, max 1 MB):</label>
+      <input type="file" id="kep" accept="image/png,image/jpeg" required>
+      <label>Cél URL (kattintáskor ide vezet):</label>
+      <input type="url" id="url" required placeholder="https://példa.hu">
+      <button type="button" class="pay-btn" id="fizetesBtn">Feltöltés & Fizetés (1490 Ft)</button>
     </form>
+    <div id="uzenet"></div>
   </div>
+  <script src="reklam.js"></script>
 </body>
 </html>
