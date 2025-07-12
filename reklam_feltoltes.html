@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Reklám feltöltés – SzakiPiac</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="reklam.js" defer></script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="SzakiPiac logo" class="logo">
+    <nav>
+      <a href="index.html">Főoldal</a>
+      <a href="rolunk.html">Rólunk</a>
+      <a href="kapcsolat.html">Kapcsolat</a>
+      <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
+      <a href="bejelentkezes.html">Bejelentkezés</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h2>Reklám feltöltése</h2>
+    <form id="reklam-form">
+      <label>Kép feltöltése (jpg, png, max 1 db):<br>
+        <input type="file" id="reklam-kep" accept="image/png, image/jpeg" required>
+      </label><br>
+      <label>Cél URL (pl. https://valami.hu):<br>
+        <input type="url" id="reklam-link" required>
+      </label><br>
+      <button type="button" id="payBtn">Fizetés PayPal-lal (1490 Ft)</button>
+      <div id="reklam-uzenet"></div>
+    </form>
+  </div>
+</body>
+</html>
