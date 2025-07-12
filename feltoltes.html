@@ -6,8 +6,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .container {
+      max-width: 650px;
+      margin: 60px auto 0 auto;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px #eee8;
+      padding: 40px 32px 32px 32px;
+    }
+    .content-box label {
+      font-size: 1.09rem;
+      display: block;
+      margin-bottom: 8px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .content-box input[type="text"],
+    .content-box input[type="number"],
+    .content-box textarea,
+    .content-box select {
+      width: 100%;
+      padding: 8px;
+      font-size: 1.07rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-bottom: 8px;
+      background: #fcfcfa;
+    }
+    #paypal-gomb { margin-top: 18px; margin-bottom: 10px; }
+    #uzenet { margin-top: 18px; font-size: 1.12rem; font-weight: 500; }
+    @media (max-width: 720px) {
+      .container { max-width: 98vw; padding: 10px; }
+    }
+  </style>
+  <!-- PAYPAL SDK ÉLES -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AW9Yc0M2H-I67Dx7boyvil9xg6LIdHcuwgFDpiKshLZx8RHoMfrPNMOrwyBRe589D0YXVk41cjG-TReu&currency=HUF"></script>
 </head>
 <body>
+  <!-- REKLÁM SÁV KEZDŐDIK -->
+  <div id="reklamSav" style="position: absolute; top: 110px; right: 32px; width: 300px; z-index: 1000;">
+    <!-- Ide tölt be a reklám.js -->
+  </div>
+  <script>
+    (function(){
+      let box = document.getElementById("reklamSav");
+      let aktivreklam = localStorage.getItem("aktivreklam");
+      if(aktivreklam){
+        let ad = JSON.parse(aktivreklam);
+        box.innerHTML = `<a href="${ad.url}" target="_blank"><img src="${ad.img}" alt="Reklám" style="width:100%; border-radius:10px; box-shadow:0 0 18px #ccc;"></a>`;
+      } else {
+        box.innerHTML = `<div style="background:#fffbe6; border-radius:16px; text-align:center; padding:18px 8px; font-size:1.14em;">
+        <b>Szabad reklámhely!</b><br>Itt hirdethet!<br>
+        <a href="reklam.html" style="color:#6ba800;text-decoration:underline;">Reklám feltöltése</a>
+        </div>`;
+      }
+    })();
+  </script>
+  <!-- REKLÁM SÁV VÉGE -->
+
   <header class="green-header">
     <img src="logo.png" class="logo" alt="SzakiPiac logó">
     <nav>
@@ -21,16 +78,17 @@
       <img src="reklam.png" alt="Reklám" style="height:42px;">
     </div>
   </header>
+
   <div class="container">
     <div class="content-box">
       <h1>Hirdetés feltöltés</h1>
       <form id="feltoltesForm">
         <label>Cím:<br>
           <input type="text" name="cim" required maxlength="60">
-        </label><br><br>
+        </label>
         <label>Leírás:<br>
           <textarea name="leiras" rows="3" required maxlength="500"></textarea>
-        </label><br><br>
+        </label>
         <label>Kategória:<br>
           <select name="kategoria" required>
             <option value="">Válassz kategóriát</option>
@@ -39,30 +97,32 @@
             <option value="Lakberendezés">Lakberendezés</option>
             <option value="Számítástechnika">Számítástechnika</option>
           </select>
-        </label><br><br>
+        </label>
         <label>Ár (Ft):<br>
           <input type="number" name="ar" min="0">
-        </label><br><br>
+        </label>
         <label>Csomag:<br>
           <select id="csomagValaszto" name="csomag" required>
             <option value="Alap">Alap (ingyenes, 2 kép, 7 nap)</option>
             <option value="Prémium">Prémium (1990 Ft, 3 kép, 14 nap)</option>
             <option value="Extra">Extra (2990 Ft, 5 kép, 30 nap)</option>
           </select>
-        </label><br><br>
-        <label>Képek feltöltése (csomagtól függő mennyiség):<br>
+        </label>
+        <label>Képek feltöltése (csomagtól függő mennyiség, max 5MB/kép):<br>
           <input type="file" name="kepek" id="kepek" accept="image/*" multiple>
-        </label><br><br>
-        <div id="paypal-gomb" style="display:none; margin-bottom:16px;">
+        </label>
+        <div id="paypal-gomb" style="display:none;">
           <div id="paypal-button-container"></div>
         </div>
         <button type="submit" id="feltoltBtn">Feltöltés</button>
       </form>
-      <div id="uzenet" style="margin-top:18px;"></div>
+      <div id="uzenet"></div>
     </div>
   </div>
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
+
   <script>
+    // --- PAYPAL FIZETÉS ---
+
     const paypalBtnDiv = document.getElementById('paypal-gomb');
     const csomagValaszto = document.getElementById('csomagValaszto');
     let paypalSelected = false;
@@ -84,11 +144,12 @@
     });
 
     function renderPayPal(amount) {
+      document.getElementById('paypal-button-container').innerHTML = '';
       paypal.Buttons({
         createOrder: function (data, actions) {
           return actions.order.create({
             purchase_units: [{
-              amount: { value: (amount / 360).toFixed(2), currency_code: "HUF" }, // PayPal sandbox nem tud HUF-ot, demo csak!
+              amount: { value: amount.toString(), currency_code: "HUF" },
               description: "SzakiPiac hirdetés"
             }]
           });
@@ -96,41 +157,36 @@
         onApprove: function (data, actions) {
           paypalSelected = true;
           document.getElementById('uzenet').innerHTML = "<span style='color:green;'>Fizetés sikeres! Most már feltöltheted a hirdetést.</span>";
+        },
+        onError: function (err) {
+          document.getElementById('uzenet').innerHTML = "<span style='color:red;'>Hiba a fizetés során. Próbáld újra!</span>";
         }
       }).render('#paypal-button-container');
     }
 
+    // --- KÉP MÉRET ELLENŐRZÉS (max 5MB/kép) ---
+    document.getElementById('kepek').addEventListener('change', function(e){
+      for (const f of e.target.files) {
+        if (f.size > 5 * 1024 * 1024) {
+          alert("Túl nagy kép! (max 5MB/kép)");
+          e.target.value = "";
+          break;
+        }
+      }
+    });
+
+    // --- FELTÖLTÉS GOMB ---
     document.getElementById('feltoltesForm').addEventListener('submit', function(e){
       e.preventDefault();
       if ((csomagValaszto.value === "Prémium" || csomagValaszto.value === "Extra") && !paypalSelected) {
         document.getElementById('uzenet').innerHTML = "<span style='color:red;'>Előbb fizess PayPallal!</span>";
         return;
       }
-      // Itt a tényleges feltöltés logikája (Supabase/API), most csak demo üzenet:
+      // Itt jöhetne a tényleges adatmentés (pl. Supabase-hez/API-hoz)
       document.getElementById('uzenet').innerHTML = "<b style='color:green;'>Hirdetés sikeresen feltöltve!</b>";
       document.getElementById('feltoltesForm').reset();
       paypalSelected = false;
     });
   </script>
-</body><!-- REKLÁM SÁV KEZDŐDIK -->
-<div id="reklamSav" style="position: absolute; top: 110px; right: 32px; width: 300px; z-index: 1000;">
-  <!-- Ide tölt be a reklám.js -->
-</div>
-<script>
-(function(){
-  let box = document.getElementById("reklamSav");
-  let aktivreklam = localStorage.getItem("aktivreklam");
-  if(aktivreklam){
-    let ad = JSON.parse(aktivreklam);
-    box.innerHTML = `<a href="${ad.url}" target="_blank"><img src="${ad.img}" alt="Reklám" style="width:100%; border-radius:10px; box-shadow:0 0 18px #ccc;"></a>`;
-  } else {
-    box.innerHTML = `<div style="background:#fffbe6; border-radius:16px; text-align:center; padding:18px 8px; font-size:1.14em;">
-    <b>Szabad reklámhely!</b><br>Itt hirdethet!<br>
-    <a href="reklam.html" style="color:#6ba800;text-decoration:underline;">Reklám feltöltése</a>
-    </div>`;
-  }
-})();
-</script>
-<!-- REKLÁM SÁV VÉGE -->
-
+</body>
 </html>
