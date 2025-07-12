@@ -1,228 +1,116 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <title>Hirdetés feltöltése – SzakiPiac</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background: #fcfdf1;
-            font-family: Arial, sans-serif;
-            margin: 0;
-        }
-        .header {
-            background: #44922b;
-            color: #fff;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-        .logo {
-            height: 54px;
-            margin: 8px 12px 8px 22px;
-        }
-        .menu {
-            display: flex;
-            gap: 30px;
-            margin-left: 15px;
-        }
-        .menu a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 22px;
-            transition: text-shadow 0.15s;
-        }
-        .menu a:hover {
-            text-shadow: 0 2px 8px #b1e8ae;
-        }
-        .header-right {
-            margin-right: 28px;
-        }
-        .header-right img {
-            height: 36px;
-            vertical-align: middle;
-        }
-        .reklam-label {
-            color: #441e92;
-            font-size: 19px;
-            vertical-align: middle;
-            font-weight: bold;
-        }
-        .main-box {
-            background: #fff;
-            max-width: 520px;
-            margin: 38px auto 32px auto;
-            border-radius: 14px;
-            box-shadow: 0 2px 32px #d3efc9;
-            padding: 35px 36px 32px 36px;
-        }
-        h2 {
-            text-align: center;
-            color: #227821;
-            margin-top: 0;
-        }
-        form label {
-            display: block;
-            margin-bottom: 13px;
-            font-size: 16px;
-            color: #246c23;
-        }
-        .input, textarea, select {
-            width: 100%;
-            max-width: 98%;
-            padding: 8px;
-            border: 1.5px solid #aeeab1;
-            border-radius: 6px;
-            margin-top: 4px;
-            margin-bottom: 16px;
-            font-size: 16px;
-        }
-        textarea {
-            min-height: 64px;
-            resize: vertical;
-        }
-        .form-flex {
-            display: flex;
-            gap: 20px;
-        }
-        .csomag-valaszto-oszlop {
-            min-width: 170px;
-            max-width: 200px;
-            display: flex;
-            flex-direction: column;
-            gap: 17px;
-            margin-top: 8px;
-        }
-        .csomag-valaszto-oszlop label {
-            background: #f6fbee;
-            border: 1.5px solid #aeeab1;
-            border-radius: 6px;
-            padding: 10px 12px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-bottom: 0;
-            box-shadow: 0 1px 2px #f0f0f0;
-        }
-        .form-mainfields {
-            flex: 1;
-        }
-        .file-inputs {
-            margin-top: 13px;
-            margin-bottom: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .file-inputs input[type="file"] {
-            width: 200px;
-        }
-        #feltoltesForm button {
-            background: #38a21e;
-            color: #fff;
-            padding: 12px 0;
-            border: none;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-        #feltoltesForm button:hover {
-            background: #195f18;
-        }
-        #result {
-            margin-top: 12px;
-            text-align: center;
-            color: #1c981a;
-        }
-        @media (max-width: 800px) {
-            .main-box { max-width: 97vw; padding: 12px; }
-            .form-flex { flex-direction: column; }
-            .csomag-valaszto-oszlop { flex-direction: row; gap: 7px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Hirdetés feltöltés – SzakiPiac.hu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Fejléc (menüsorral, reklám logóval) -->
-    <div class="header">
-        <div class="header-left">
-            <img src="logo.png" class="logo" alt="SzakiPiac logó">
-            <div class="menu">
-                <a href="index.html">Főoldal</a>
-                <a href="rolunk.html">Rólunk</a>
-                <a href="kapcsolat.html">Kapcsolat</a>
-                <a href="feltoltes.html">Hirdetés feltöltés</a>
-                <a href="auth.html">Bejelentkezés</a>
-            </div>
-        </div>
-        <div class="header-right">
-            <img src="reklam1.png" height="36" alt="Reklám"> 
-            <span class="reklam-label">Reklám</span>
-        </div>
+  <header class="green-header">
+    <img src="logo.png" class="logo" alt="SzakiPiac logó">
+    <nav>
+      <a href="index.html">Főoldal</a>
+      <a href="rolunk.html">Rólunk</a>
+      <a href="kapcsolat.html">Kapcsolat</a>
+      <a href="feltoltes.html" style="font-weight:bold;">Hirdetés feltöltés</a>
+      <a href="auth.html">Bejelentkezés</a>
+    </nav>
+    <div class="reklam-header">
+      <img src="reklam.png" alt="Reklám" style="height:42px;">
     </div>
-
-    <div class="main-box">
-        <h2>Hirdetés feltöltése</h2>
-        <form id="feltoltesForm" autocomplete="off">
-            <div class="form-flex">
-                <div class="csomag-valaszto-oszlop">
-                    <label>
-                        <input type="radio" name="csomag" value="alap" checked>
-                        <strong>Alap csomag</strong><br>
-                        Ingyenes<br>2 kép<br>7 nap<br>
-                    </label>
-                    <label>
-                        <input type="radio" name="csomag" value="premium">
-                        <strong>Prémium csomag</strong><br>
-                        990 Ft<br>3 kép<br>14 nap<br>Kiemelt megjelenés
-                    </label>
-                    <label>
-                        <input type="radio" name="csomag" value="extra">
-                        <strong>Extra csomag</strong><br>
-                        1990 Ft<br>5 kép<br>30 nap<br>Kiemelt megjelenés
-                    </label>
-                </div>
-                <div class="form-mainfields">
-                    <label for="title">Cím:</label>
-                    <input type="text" id="title" class="input" required maxlength="40">
-
-                    <label for="description">Leírás:</label>
-                    <textarea id="description" class="input" required maxlength="250"></textarea>
-
-                    <label for="price">Ár (Ft):</label>
-                    <input type="number" id="price" class="input" min="0" max="99999999" required>
-                    
-                    <label for="category">Kategória:</label>
-                    <select id="category" class="input" required>
-                        <option value="">– Válassz kategóriát –</option>
-                        <option value="Építőipar">Építőipar</option>
-                        <option value="Lakásfelújítás">Lakásfelújítás</option>
-                        <option value="Gépészet">Gépészet</option>
-                        <option value="Villanyszerelés">Villanyszerelés</option>
-                        <option value="Barkács">Barkács</option>
-                        <option value="Egyéb">Egyéb</option>
-                    </select>
-                    
-                    <div class="file-inputs">
-                        <input type="file" id="file1" name="kep1">
-                        <input type="file" id="file2" name="kep2">
-                        <input type="file" id="file3" name="kep3">
-                        <input type="file" id="file4" name="kep4">
-                        <input type="file" id="file5" name="kep5">
-                    </div>
-                </div>
-            </div>
-            <button type="submit">Hirdetés mentése</button>
-        </form>
-        <div id="result"></div>
+  </header>
+  <div class="container">
+    <div class="content-box">
+      <h1>Hirdetés feltöltés</h1>
+      <form id="feltoltesForm">
+        <label>Cím:<br>
+          <input type="text" name="cim" required maxlength="60">
+        </label><br><br>
+        <label>Leírás:<br>
+          <textarea name="leiras" rows="3" required maxlength="500"></textarea>
+        </label><br><br>
+        <label>Kategória:<br>
+          <select name="kategoria" required>
+            <option value="">Válassz kategóriát</option>
+            <option value="Építőipar">Építőipar</option>
+            <option value="Kertépítés">Kertépítés</option>
+            <option value="Lakberendezés">Lakberendezés</option>
+            <option value="Számítástechnika">Számítástechnika</option>
+          </select>
+        </label><br><br>
+        <label>Ár (Ft):<br>
+          <input type="number" name="ar" min="0">
+        </label><br><br>
+        <label>Csomag:<br>
+          <select id="csomagValaszto" name="csomag" required>
+            <option value="Alap">Alap (ingyenes, 2 kép, 7 nap)</option>
+            <option value="Prémium">Prémium (1990 Ft, 3 kép, 14 nap)</option>
+            <option value="Extra">Extra (2990 Ft, 5 kép, 30 nap)</option>
+          </select>
+        </label><br><br>
+        <label>Képek feltöltése (csomagtól függő mennyiség):<br>
+          <input type="file" name="kepek" id="kepek" accept="image/*" multiple>
+        </label><br><br>
+        <div id="paypal-gomb" style="display:none; margin-bottom:16px;">
+          <div id="paypal-button-container"></div>
+        </div>
+        <button type="submit" id="feltoltBtn">Feltöltés</button>
+      </form>
+      <div id="uzenet" style="margin-top:18px;"></div>
     </div>
-    <script src="feltoltes.js"></script>
+  </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
+  <script>
+    const paypalBtnDiv = document.getElementById('paypal-gomb');
+    const csomagValaszto = document.getElementById('csomagValaszto');
+    let paypalSelected = false;
+    let fizetesOsszeg = 0;
+
+    csomagValaszto.addEventListener('change', function () {
+      paypalSelected = false;
+      if (csomagValaszto.value === "Prémium") {
+        paypalBtnDiv.style.display = 'block';
+        fizetesOsszeg = 1990;
+        renderPayPal(fizetesOsszeg);
+      } else if (csomagValaszto.value === "Extra") {
+        paypalBtnDiv.style.display = 'block';
+        fizetesOsszeg = 2990;
+        renderPayPal(fizetesOsszeg);
+      } else {
+        paypalBtnDiv.style.display = 'none';
+      }
+    });
+
+    function renderPayPal(amount) {
+      paypal.Buttons({
+        createOrder: function (data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: { value: (amount / 360).toFixed(2), currency_code: "HUF" }, // PayPal sandbox nem tud HUF-ot, demo csak!
+              description: "SzakiPiac hirdetés"
+            }]
+          });
+        },
+        onApprove: function (data, actions) {
+          paypalSelected = true;
+          document.getElementById('uzenet').innerHTML = "<span style='color:green;'>Fizetés sikeres! Most már feltöltheted a hirdetést.</span>";
+        }
+      }).render('#paypal-button-container');
+    }
+
+    document.getElementById('feltoltesForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      if ((csomagValaszto.value === "Prémium" || csomagValaszto.value === "Extra") && !paypalSelected) {
+        document.getElementById('uzenet').innerHTML = "<span style='color:red;'>Előbb fizess PayPallal!</span>";
+        return;
+      }
+      // Itt a tényleges feltöltés logikája (Supabase/API), most csak demo üzenet:
+      document.getElementById('uzenet').innerHTML = "<b style='color:green;'>Hirdetés sikeresen feltöltve!</b>";
+      document.getElementById('feltoltesForm').reset();
+      paypalSelected = false;
+    });
+  </script>
 </body>
 </html>
