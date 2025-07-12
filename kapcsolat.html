@@ -53,5 +53,25 @@
       this.reset();
     });
   </script>
-</body>
+</body><!-- REKLÁM SÁV KEZDŐDIK -->
+<div id="reklamSav" style="position: absolute; top: 110px; right: 32px; width: 300px; z-index: 1000;">
+  <!-- Ide tölt be a reklám.js -->
+</div>
+<script>
+(function(){
+  let box = document.getElementById("reklamSav");
+  let aktivreklam = localStorage.getItem("aktivreklam");
+  if(aktivreklam){
+    let ad = JSON.parse(aktivreklam);
+    box.innerHTML = `<a href="${ad.url}" target="_blank"><img src="${ad.img}" alt="Reklám" style="width:100%; border-radius:10px; box-shadow:0 0 18px #ccc;"></a>`;
+  } else {
+    box.innerHTML = `<div style="background:#fffbe6; border-radius:16px; text-align:center; padding:18px 8px; font-size:1.14em;">
+    <b>Szabad reklámhely!</b><br>Itt hirdethet!<br>
+    <a href="reklam.html" style="color:#6ba800;text-decoration:underline;">Reklám feltöltése</a>
+    </div>`;
+  }
+})();
+</script>
+<!-- REKLÁM SÁV VÉGE -->
+
 </html>
