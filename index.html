@@ -2,45 +2,49 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Főoldal – SzakiPiac</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SzakiPiac.hu – Főoldal</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="reklam.js" defer></script>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="SzakiPiac logo" class="logo">
-    <nav>
-      <a href="index.html">Főoldal</a>
-      <a href="rolunk.html">Rólunk</a>
-      <a href="kapcsolat.html">Kapcsolat</a>
-      <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
-      <a href="bejelentkezes.html">Bejelentkezés</a>
-    </nav>
+  <header class="header">
+    <div class="header-inner">
+      <img src="logo.png" alt="SzakiPiac logó" class="logo">
+      <nav class="nav">
+        <a href="index.html">Főoldal</a>
+        <a href="rolunk.html">Rólunk</a>
+        <a href="kapcsolat.html">Kapcsolat</a>
+        <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
+        <a href="bejelentkezes.html">Bejelentkezés</a>
+      </nav>
+    </div>
   </header>
-
-  <div class="container">
-    <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-    <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
-    <div class="filters">
-      <input type="text" placeholder="Keresés a hirdetésekben...">
-      <select>
-        <option>Összes kategória</option>
-        <option>Építőipar</option>
-        <option>Kertépítés</option>
-        <option>Lakberendezés</option>
-        <option>Számítástechnika</option>
-      </select>
+  <main class="container">
+    <div class="main-content">
+      <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
+      <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
+      <div class="filters">
+        <input type="text" id="kereses" placeholder="Keresés a hirdetésekben..."/>
+        <select id="kategoriavalaszto">
+          <option value="">Összes kategória</option>
+          <option value="Építőipar">Építőipar</option>
+          <option value="Kertépítés">Kertépítés</option>
+          <option value="Lakberendezés">Lakberendezés</option>
+          <option value="Számítástechnika">Számítástechnika</option>
+        </select>
+      </div>
+      <!-- Itt lesznek a hirdetések -->
+      <div id="ads-container">
+        <p>Hirdetések betöltése...</p>
+      </div>
     </div>
-    <div id="ads-container">
-      <p>Hirdetések betöltése...</p>
-    </div>
-  </div>
-
-  <aside id="reklam-sidenav">
-    <!-- Itt jelenik meg a reklám -->
-    <div id="reklam-box"></div>
-  </aside>
+    <aside class="reklam-sáv" id="reklam-box">
+      <!-- Ide kerül majd a reklám vagy a szabad hely -->
+      <img src="reklam.png" alt="Reklám" style="width:100%;margin-bottom:12px;">
+      <div style="background:#fff7cc; padding:10px; border-radius:12px; text-align:center;">
+        Szabad reklámhely!<br>Itt hirdethet!<br>
+        <a href="reklam_feltoltes.html" style="color:#2d8532;">Reklám feltöltése</a>
+      </div>
+    </aside>
+  </main>
 </body>
 </html>
