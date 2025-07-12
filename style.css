@@ -1,16 +1,26 @@
-body { background: #fdfdea; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+body {
+  background: #fdfdea;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
 .green-header {
-  background: linear-gradient(90deg, #29b64a 60%, #17943c 100%);
+  background: linear-gradient(90deg, #41e36c 65%, #3ccc64 100%);
   color: #fff;
-  padding: 0;
   display: flex;
   align-items: center;
+  padding: 0 0 0 0;
   height: 68px;
   box-shadow: 0 1px 8px #0001;
   border-bottom: 2px solid #e3e3e3;
 }
-.green-header .logo { height: 48px; margin-left: 16px; margin-right: 36px; }
-.green-header nav { flex: 1; }
+.green-header .logo {
+  height: 48px;
+  margin-left: 16px;
+  margin-right: 36px;
+}
+.green-header nav {
+  flex: 1;
+}
 .green-header nav a {
   color: #fff;
   text-decoration: none;
@@ -21,26 +31,26 @@ body { background: #fdfdea; margin: 0; font-family: 'Segoe UI', Arial, sans-seri
   position: relative;
   top: -2px;
 }
-.green-header nav a:hover { color: #ffeb00; }
-.main-wrapper { display: flex; align-items: flex-start; max-width: 1280px; margin: 0; }
-.content { flex: 1 1 0; margin-left: 32px; margin-top: 38px; max-width: 700px; }
-.reklam-box {
-  width: 320px;
-  margin-left: 38px;
-  margin-top: 50px;
-  background: #fffbe2;
-  border-radius: 22px;
-  padding: 24px 18px 22px 18px;
-  box-shadow: 0 4px 18px #f8b40021;
-  text-align: center;
-  min-width: 220px;
+.green-header nav a:hover {
+  color: #ffeb00;
 }
-.reklam-box img {
-  width: 90%;
-  max-width: 260px;
-  border-radius: 18px;
-  margin-bottom: 13px;
-  box-shadow: 0 2px 8px #1e1e1e18;
+.reklam-header {
+  margin-right: 36px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 83vh;
+}
+.content-box {
+  background: #fff;
+  border-radius: 15px;
+  margin: 40px 0 40px 0;
+  padding: 38px 40px 30px 40px;
+  box-shadow: 0 4px 22px #41e36c21;
+  width: 100%;
+  max-width: 700px;
 }
 .filters {
   display: flex;
@@ -49,14 +59,17 @@ body { background: #fdfdea; margin: 0; font-family: 'Segoe UI', Arial, sans-seri
   flex-wrap: wrap;
   align-items: flex-end;
 }
-.filters input, .filters select {
+.filters input,
+.filters select {
   padding: 11px 13px;
   border-radius: 8px;
   border: 1.3px solid #ccc;
   font-size: 1em;
   min-width: 180px;
 }
-.hirdetesek { margin-top: 15px; }
+.hirdetesek {
+  margin-top: 15px;
+}
 .hirdetes-kartya {
   background: #fff;
   border-radius: 13px;
@@ -66,24 +79,37 @@ body { background: #fdfdea; margin: 0; font-family: 'Segoe UI', Arial, sans-seri
   position: relative;
   border-left: 5px solid #1be92b30;
 }
-.hirdetes-kartya.kiemelt { border-left: 5px solid #ffb000; box-shadow: 0 2px 15px #ffd58043;}
+.hirdetes-kartya.kiemelt {
+  border-left: 5px solid #ffb000;
+  box-shadow: 0 2px 15px #ffd58043;
+}
 .hirdetes-kartya .kiemelt-matrica {
-  position: absolute; top: 10px; right: 18px;
-  background: #ffc400; color: #222;
-  font-size: 0.92em; border-radius: 8px;
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  background: #ffc400;
+  color: #222;
+  font-size: 0.92em;
+  border-radius: 8px;
   padding: 2px 12px 2px 12px;
   font-weight: bold;
 }
-.hirdetes-kartya img { max-height: 70px; max-width: 90px; border-radius: 9px; margin-right: 8px; }
-.hirdetes-kepek { margin-top: 8px; margin-bottom: 3px;}
+.hirdetes-kartya img {
+  max-height: 70px;
+  max-width: 90px;
+  border-radius: 9px;
+  margin-right: 8px;
+}
+.hirdetes-kepek {
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
 @media (max-width: 1024px) {
-  .main-wrapper { flex-direction: column; }
-  .reklam-box { margin: 40px auto 0 auto; }
-  .content { margin-left: 12px; max-width: 97vw;}
+  .content-box { padding: 28px 6vw 24px 6vw; }
 }
 @media (max-width: 700px) {
   .green-header { flex-direction: column; align-items: flex-start; height: auto; }
-  .main-wrapper { flex-direction: column; }
-  .content { margin: 20px 0 0 0; }
-  .reklam-box { width: 98vw; margin: 20px auto 0 auto; }
+  .container { padding: 0 0 60px 0; }
+  .content-box { padding: 18px 2vw 20px 2vw; margin: 30px 0 30px 0; }
+  .reklam-header { margin: 18px 0 0 0; }
 }
