@@ -2,49 +2,142 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>SzakiPiac.hu – Főoldal</title>
+  <title>Főoldal – SzakiPiac.hu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #fdfdee;
+      margin: 0;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      color: #202020;
+    }
+    .navbar {
+      width: 100%;
+      background: linear-gradient(90deg, #73f580 0%, #63e6c5 100%);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      height: 74px;
+      box-sizing: border-box;
+    }
+    .navbar-logo {
+      height: 54px;
+      margin-right: 24px;
+    }
+    .navbar-menu {
+      display: flex;
+      gap: 32px;
+    }
+    .navbar-menu a {
+      text-decoration: none;
+      color: #222;
+      font-weight: bold;
+      font-size: 1.3rem;
+      padding: 0 4px;
+      transition: color 0.2s;
+    }
+    .navbar-menu a:hover {
+      color: #118a36;
+    }
+    .container {
+      max-width: 900px;
+      margin: 48px auto 0 auto;
+      padding: 40px 32px 40px 32px;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 6px 40px #98fa9c17;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .main-title {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #222;
+    }
+    .subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 26px;
+      color: #333;
+    }
+    .filters {
+      width: 100%;
+      display: flex;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .filters input, .filters select {
+      flex: 1 1 0;
+      padding: 12px;
+      font-size: 1.08rem;
+      border: 1px solid #b9e6b6;
+      border-radius: 8px;
+      outline: none;
+      background: #f6fff7;
+    }
+    .ads-container {
+      width: 100%;
+      min-height: 70px;
+    }
+    /* Mobil optimalizáció */
+    @media (max-width: 700px) {
+      .container {
+        padding: 16px;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+      }
+      .navbar {
+        flex-direction: column;
+        height: auto;
+        gap: 6px;
+        align-items: flex-start;
+      }
+      .navbar-menu {
+        gap: 16px;
+        font-size: 1.1rem;
+      }
+      .main-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <img src="logo.png" alt="SzakiPiac logó" class="logo">
-      <nav class="nav">
-        <a href="index.html">Főoldal</a>
-        <a href="rolunk.html">Rólunk</a>
-        <a href="kapcsolat.html">Kapcsolat</a>
-        <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
-        <a href="bejelentkezes.html">Bejelentkezés</a>
-      </nav>
+  <!-- Fejléc -->
+  <nav class="navbar">
+    <img src="logo.png" alt="SzakiPiac logó" class="navbar-logo">
+    <div class="navbar-menu">
+      <a href="index.html">Főoldal</a>
+      <a href="rolunk.html">Rólunk</a>
+      <a href="kapcsolat.html">Kapcsolat</a>
+      <a href="hirdetes-feltoltes.html">Hirdetés feltöltés</a>
+      <a href="bejelentkezes.html">Bejelentkezés</a>
     </div>
-  </header>
-  <main class="container">
-    <div class="main-content">
-      <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-      <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
+  </nav>
+  <main>
+    <div class="container">
+      <div class="main-title">Üdvözlünk a SzakiPiac.hu-n!</div>
+      <div class="subtitle">
+        Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!
+      </div>
       <div class="filters">
-        <input type="text" id="kereses" placeholder="Keresés a hirdetésekben..."/>
-        <select id="kategoriavalaszto">
-          <option value="">Összes kategória</option>
-          <option value="Építőipar">Építőipar</option>
-          <option value="Kertépítés">Kertépítés</option>
-          <option value="Lakberendezés">Lakberendezés</option>
-          <option value="Számítástechnika">Számítástechnika</option>
+        <input type="text" placeholder="Keresés a hirdetésekben...">
+        <select>
+          <option>Összes kategória</option>
+          <option>Építőipar</option>
+          <option>Kertépítés</option>
+          <option>Lakberendezés</option>
+          <option>Számítástechnika</option>
         </select>
       </div>
-      <!-- Itt lesznek a hirdetések -->
-      <div id="ads-container">
-        <p>Hirdetések betöltése...</p>
+      <div class="ads-container">
+        <!-- Ide jönnek a hirdetések -->
       </div>
     </div>
-    <aside class="reklam-sáv" id="reklam-box">
-      <!-- Ide kerül majd a reklám vagy a szabad hely -->
-      <img src="reklam.png" alt="Reklám" style="width:100%;margin-bottom:12px;">
-      <div style="background:#fff7cc; padding:10px; border-radius:12px; text-align:center;">
-        Szabad reklámhely!<br>Itt hirdethet!<br>
-        <a href="reklam_feltoltes.html" style="color:#2d8532;">Reklám feltöltése</a>
-      </div>
-    </aside>
   </main>
 </body>
 </html>
