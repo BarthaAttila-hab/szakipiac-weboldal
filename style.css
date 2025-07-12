@@ -1,60 +1,72 @@
 body {
-  background: #fffef0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  color: #222;
   margin: 0;
+  background: #fefeee;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
-header {
-  background: linear-gradient(90deg, #6ee36f 0%, #55e7b7 100%);
+.header {
+  background: linear-gradient(90deg, #5ee75e 0%, #41e79b 100%);
+  padding: 0;
+  box-shadow: 0 2px 8px #0001;
+}
+.header-inner {
+  max-width: 1200px;
+  margin: auto;
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  height: 80px;
+  justify-content: space-between;
+  height: 72px;
 }
 .logo {
-  height: 60px;
-  margin-right: 20px;
+  height: 54px;
+  margin-left: 16px;
 }
-nav {
-  display: flex;
-  gap: 30px;
-}
-nav a {
-  color: #222;
+.nav a {
+  text-decoration: none;
+  color: #0a3b13;
   font-weight: bold;
   font-size: 1.2em;
-  text-decoration: none;
+  margin: 0 20px;
+  transition: color 0.2s;
 }
-nav a:hover {
-  color: #3c9500;
+.nav a:hover {
+  color: #fff;
 }
 .container {
-  max-width: 800px;
-  margin: 40px auto 0;
+  max-width: 1200px;
+  margin: 36px auto 0 auto;
+  display: flex;
+  gap: 36px;
+  align-items: flex-start;
+}
+.main-content {
+  flex: 2 1 600px;
   background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 6px 32px #d3ffd0;
-  padding: 48px 32px 48px 32px;
+  border-radius: 22px;
+  padding: 36px 36px 36px 36px;
+  box-shadow: 0 4px 16px #0001;
+}
+.reklam-sáv {
+  flex: 0 0 340px;
+  min-height: 350px;
+  margin-left: 16px;
+}
+h1 {
+  font-size: 2.6em;
+  margin-bottom: 10px;
 }
 .filters {
-  margin-bottom: 24px;
+  margin: 18px 0 30px 0;
   display: flex;
   gap: 14px;
 }
-#ads-container {
-  margin-top: 16px;
+input[type="text"], select {
+  font-size: 1.1em;
+  padding: 8px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  min-width: 240px;
 }
-#reklam-sidenav {
-  position: fixed;
-  right: 16px;
-  top: 90px;
-  width: 260px;
-  background: #fff8ce;
-  border-radius: 14px;
-  box-shadow: 0 2px 16px #ffce8a33;
-  padding: 16px;
-  z-index: 1000;
-  min-height: 120px;
-  text-align: center;
+@media (max-width: 1000px) {
+  .container { flex-direction: column; }
+  .reklam-sáv { margin-left: 0; margin-top: 28px; }
 }
-#reklam-sidenav img { max-width: 220px; }
