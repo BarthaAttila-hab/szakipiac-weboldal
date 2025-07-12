@@ -2,114 +2,45 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>SzakiPiac.hu – Főoldal</title>
+  <title>Főoldal – SzakiPiac</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="reklam.js" defer></script>
 </head>
 <body>
-  <header class="green-header">
-    <img src="logo.png" class="logo" alt="SzakiPiac logó">
+  <header>
+    <img src="logo.png" alt="SzakiPiac logo" class="logo">
     <nav>
       <a href="index.html">Főoldal</a>
       <a href="rolunk.html">Rólunk</a>
       <a href="kapcsolat.html">Kapcsolat</a>
-      <a href="feltoltes.html">Hirdetés feltöltés</a>
-      <a href="auth.html">Bejelentkezés</a>
+      <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
+      <a href="bejelentkezes.html">Bejelentkezés</a>
     </nav>
-    <div class="reklam-header">
-      <img src="reklam.png" alt="Reklám" style="height:42px;">
-    </div>
   </header>
+
   <div class="container">
-    <div class="content-box">
-      <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
-      <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
-      <div class="filters">
-        <input type="text" id="kereses" placeholder="Keresés a hirdetésekben...">
-        <select id="kategoriavalaszto">
-          <option value="">Összes kategória</option>
-          <option value="Építőipar">Építőipar</option>
-          <option value="Kertépítés">Kertépítés</option>
-          <option value="Lakberendezés">Lakberendezés</option>
-          <option value="Számítástechnika">Számítástechnika</option>
-        </select>
-      </div>
-      <div class="hirdetesek" id="ads-container">
-        <!-- Hirdetések betöltése ide -->
-      </div>
+    <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
+    <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
+    <div class="filters">
+      <input type="text" placeholder="Keresés a hirdetésekben...">
+      <select>
+        <option>Összes kategória</option>
+        <option>Építőipar</option>
+        <option>Kertépítés</option>
+        <option>Lakberendezés</option>
+        <option>Számítástechnika</option>
+      </select>
+    </div>
+    <div id="ads-container">
+      <p>Hirdetések betöltése...</p>
     </div>
   </div>
-  <script>
-    // DEMÓ hirdetés lista (helyettesítsd majd Supabase-el, ha kell)
-    const sampleAds = [
-      {
-        cim: "Festő, tapétázó – gyors, profi munka!",
-        leiras: "Szobafestés, mázolás, tisztasági festés rövid határidővel.",
-        ar: "4500",
-        kategoria: "Építőipar",
-        csomag: "Alap",
-        kepek: []
-      },
-      {
-        cim: "Kertépítés & gyepszőnyeg lerakás",
-        leiras: "Teljes kertépítés, öntözőrendszer, térkövezés.",
-        ar: "12000",
-        kategoria: "Kertépítés",
-        csomag: "Prémium",
-        kepek: []
-      },
-      {
-        cim: "Bútor összeszerelés – lakberendezés",
-        leiras: "Bútorok, polcok összeszerelése, lakberendezési tanácsadás.",
-        ar: "25000",
-        kategoria: "Lakberendezés",
-        csomag: "Extra",
-        kepek: []
-      }
-    ];
 
-    let allAds = sampleAds.slice();
-    const adsContainer = document.getElementById("ads-container");
-    const searchInput = document.getElementById("kereses");
-    const categorySelect = document.getElementById("kategoriavalaszto");
-
-    function renderAds() {
-      const search = searchInput.value.toLowerCase();
-      const selectedCategory = categorySelect.value;
-
-      let ads = allAds.filter(ad => {
-        const text = ((ad.cim || "") + " " + (ad.leiras || "")).toLowerCase();
-        return (search === "" || text.includes(search))
-          && (selectedCategory === "" || ad.kategoria === selectedCategory);
-      });
-
-      let html = "";
-      if (ads.length === 0) html = "<p>Nincs találat.</p>";
-      ads.forEach(ad => {
-        const kiemelt = (ad.csomag === "Prémium" || ad.csomag === "Extra");
-        html += `
-          <div class="hirdetes-kartya${kiemelt ? ' kiemelt' : ''}">
-            ${kiemelt ? `<span class="kiemelt-matrica">KIEMELT</span>` : ""}
-            <strong>${ad.cim || 'Hirdetés címe'}</strong>
-            <p>${ad.leiras || ''}</p>
-            <p><em>${ad.ar ? ad.ar + ' Ft' : ''}</em></p>
-            <div class="hirdetes-kepek"></div>
-            <div style="font-size:0.97em;margin-top:5px;">
-              Kategória: <b>${ad.kategoria}</b>
-              &nbsp;|&nbsp; Csomag: <b>${ad.csomag}</b>
-            </div>
-          </div>
-        `;
-      });
-
-      adsContainer.innerHTML = html;
-    }
-
-    searchInput.addEventListener("input", renderAds);
-    categorySelect.addEventListener("change", renderAds);
-
-    renderAds();
-  </script>
+  <aside id="reklam-sidenav">
+    <!-- Itt jelenik meg a reklám -->
+    <div id="reklam-box"></div>
+  </aside>
 </body>
 </html>
