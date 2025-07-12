@@ -1,115 +1,60 @@
 body {
-  background: #fdfdea;
-  margin: 0;
+  background: #fffef0;
   font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+  margin: 0;
 }
-.green-header {
-  background: linear-gradient(90deg, #41e36c 65%, #3ccc64 100%);
-  color: #fff;
+header {
+  background: linear-gradient(90deg, #6ee36f 0%, #55e7b7 100%);
   display: flex;
   align-items: center;
-  padding: 0 0 0 0;
-  height: 68px;
-  box-shadow: 0 1px 8px #0001;
-  border-bottom: 2px solid #e3e3e3;
+  padding: 0 16px;
+  height: 80px;
 }
-.green-header .logo {
-  height: 48px;
-  margin-left: 16px;
-  margin-right: 36px;
+.logo {
+  height: 60px;
+  margin-right: 20px;
 }
-.green-header nav {
-  flex: 1;
+nav {
+  display: flex;
+  gap: 30px;
 }
-.green-header nav a {
-  color: #fff;
+nav a {
+  color: #222;
+  font-weight: bold;
+  font-size: 1.2em;
   text-decoration: none;
-  margin: 0 18px;
-  font-size: 1.13em;
-  font-weight: 500;
-  transition: color 0.18s;
-  position: relative;
-  top: -2px;
 }
-.green-header nav a:hover {
-  color: #ffeb00;
-}
-.reklam-header {
-  margin-right: 36px;
+nav a:hover {
+  color: #3c9500;
 }
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 83vh;
-}
-.content-box {
+  max-width: 800px;
+  margin: 40px auto 0;
   background: #fff;
-  border-radius: 15px;
-  margin: 40px 0 40px 0;
-  padding: 38px 40px 30px 40px;
-  box-shadow: 0 4px 22px #41e36c21;
-  width: 100%;
-  max-width: 700px;
+  border-radius: 20px;
+  box-shadow: 0 6px 32px #d3ffd0;
+  padding: 48px 32px 48px 32px;
 }
 .filters {
+  margin-bottom: 24px;
   display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  gap: 14px;
 }
-.filters input,
-.filters select {
-  padding: 11px 13px;
-  border-radius: 8px;
-  border: 1.3px solid #ccc;
-  font-size: 1em;
-  min-width: 180px;
+#ads-container {
+  margin-top: 16px;
 }
-.hirdetesek {
-  margin-top: 15px;
+#reklam-sidenav {
+  position: fixed;
+  right: 16px;
+  top: 90px;
+  width: 260px;
+  background: #fff8ce;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px #ffce8a33;
+  padding: 16px;
+  z-index: 1000;
+  min-height: 120px;
+  text-align: center;
 }
-.hirdetes-kartya {
-  background: #fff;
-  border-radius: 13px;
-  box-shadow: 0 2px 9px #1e7c1721;
-  margin-bottom: 22px;
-  padding: 20px 22px 12px 22px;
-  position: relative;
-  border-left: 5px solid #1be92b30;
-}
-.hirdetes-kartya.kiemelt {
-  border-left: 5px solid #ffb000;
-  box-shadow: 0 2px 15px #ffd58043;
-}
-.hirdetes-kartya .kiemelt-matrica {
-  position: absolute;
-  top: 10px;
-  right: 18px;
-  background: #ffc400;
-  color: #222;
-  font-size: 0.92em;
-  border-radius: 8px;
-  padding: 2px 12px 2px 12px;
-  font-weight: bold;
-}
-.hirdetes-kartya img {
-  max-height: 70px;
-  max-width: 90px;
-  border-radius: 9px;
-  margin-right: 8px;
-}
-.hirdetes-kepek {
-  margin-top: 8px;
-  margin-bottom: 3px;
-}
-@media (max-width: 1024px) {
-  .content-box { padding: 28px 6vw 24px 6vw; }
-}
-@media (max-width: 700px) {
-  .green-header { flex-direction: column; align-items: flex-start; height: auto; }
-  .container { padding: 0 0 60px 0; }
-  .content-box { padding: 18px 2vw 20px 2vw; margin: 30px 0 30px 0; }
-  .reklam-header { margin: 18px 0 0 0; }
-}
+#reklam-sidenav img { max-width: 220px; }
