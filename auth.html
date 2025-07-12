@@ -2,30 +2,107 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>SzakiPiac – Bejelentkezés / Regisztráció</title>
+  <title>Bejelentkezés / Regisztráció – SzakiPiac.hu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .tab-switcher { margin-bottom: 20px; }
+    .tab-switcher button {
+      background: #f3f3f3;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 12px 12px 0 0;
+      font-size: 1.06em;
+      margin-right: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .tab-switcher button.active {
+      background: #41e36c;
+      color: #fff;
+    }
+    .auth-box label { display: block; margin: 12px 0 4px 0; }
+    .auth-box input { width: 96%; padding: 11px; font-size: 1em; margin-bottom: 4px; border-radius: 7px; border: 1px solid #bcd; }
+    .auth-box button[type="submit"] { margin-top: 13px; width: 100%; }
+    .elfelejtett-link { display: block; text-align: right; font-size: .97em; margin-top: 6px; color: #287c3b; text-decoration: underline; cursor: pointer; }
+    .auth-msg { margin: 16px 0 0 0; font-size: 1.05em; }
+  </style>
 </head>
 <body>
-  <!-- FEJLÉC, LOGÓ, MENÜ -->
-  <script src="header.js"></script>
-  
-  <div class="auth-box" style="max-width:380px;margin:60px auto;padding:24px 18px 16px 18px;background:#fffbe8;border-radius:18px;box-shadow:0 4px 16px #0002;">
-    <h2 id="auth-title">Bejelentkezés</h2>
-    <form id="auth-form">
-      <input type="email" id="email-input" placeholder="Email cím" required autocomplete="username" style="width:100%;margin-bottom:10px"><br>
-      <input type="password" id="password-input" placeholder="Jelszó" required autocomplete="current-password" style="width:100%;margin-bottom:10px"><br>
-      <button type="submit" id="auth-btn" style="width:100%">Bejelentkezés</button>
-    </form>
-    <div style="margin: 12px 0;">
-      <a href="#" id="switch-link">Nincs fiókod? Regisztrálj!</a>
-      <span style="margin: 0 6px;">|</span>
-      <a href="#" id="forgot-pw-link">Elfelejtett jelszó?</a>
+  <header class="green-header">
+    <img src="logo.png" class="logo" alt="SzakiPiac logó">
+    <nav>
+      <a href="index.html">Főoldal</a>
+      <a href="rolunk.html">Rólunk</a>
+      <a href="kapcsolat.html">Kapcsolat</a>
+      <a href="feltoltes.html">Hirdetés feltöltés</a>
+      <a href="auth.html" style="font-weight:bold;">Bejelentkezés</a>
+    </nav>
+    <div class="reklam-header">
+      <img src="reklam.png" alt="Reklám" style="height:42px;">
     </div>
-    <div id="auth-message" style="color: red; min-height: 1.5em; margin-top: 8px;"></div>
+  </header>
+  <div class="container">
+    <div class="content-box" style="max-width:400px;">
+      <div class="tab-switcher">
+        <button id="loginTab" class="active">Bejelentkezés</button>
+        <button id="regTab">Regisztráció</button>
+      </div>
+      <form id="loginForm" class="auth-box">
+        <label>E-mail cím</label>
+        <input type="email" name="login_email" required>
+        <label>Jelszó</label>
+        <input type="password" name="login_password" required>
+        <span class="elfelejtett-link" onclick="showForgot()">Elfelejtett jelszó?</span>
+        <button type="submit">Bejelentkezés</button>
+        <div id="loginMsg" class="auth-msg"></div>
+      </form>
+      <form id="regForm" class="auth-box" style="display:none;">
+        <label>Név</label>
+        <input type="text" name="reg_nev" required>
+        <label>E-mail cím</label>
+        <input type="email" name="reg_email" required>
+        <label>Jelszó</label>
+        <input type="password" name="reg_password" required>
+        <button type="submit">Regisztráció</button>
+        <div id="regMsg" class="auth-msg"></div>
+      </form>
+      <form id="forgotForm" class="auth-box" style="display:none;">
+        <label>E-mail cím</label>
+        <input type="email" name="forgot_email" required>
+        <button type="submit">Új jelszó kérése</button>
+        <div id="forgotMsg" class="auth-msg"></div>
+      </form>
+    </div>
   </div>
-  <!-- JS-ek HELYES SORRENDBEN! -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="supabase.js"></script>
-  <script src="auth.js"></script>
+  <script>
+    const loginTab = document.getElementById('loginTab');
+    const regTab = document.getElementById('regTab');
+    const loginForm = document.getElementById('loginForm');
+    const regForm = document.getElementById('regForm');
+    const forgotForm = document.getElementById('forgotForm');
+    function showTab(tab) {
+      loginForm.style.display = tab === 'login' ? 'block' : 'none';
+      regForm.style.display = tab === 'reg' ? 'block' : 'none';
+      forgotForm.style.display = 'none';
+      loginTab.classList.toggle('active', tab === 'login');
+      regTab.classList.toggle('active', tab === 'reg');
+    }
+    loginTab.onclick = () => showTab('login');
+    regTab.onclick = () => showTab('reg');
+    function showForgot() {
+      loginForm.style.display = 'none';
+      regForm.style.display = 'none';
+      forgotForm.style.display = 'block';
+      loginTab.classList.remove('active');
+      regTab.classList.remove('active');
+    }
+    // DEMO működés – NEM valós hitelesítés!
+    loginForm.onsubmit = e => { e.preventDefault(); document.getElementById('loginMsg').innerHTML = "<span style='color:green;'>Sikeres (demó) belépés!</span>"; }
+    regForm.onsubmit = e => { e.preventDefault(); document.getElementById('regMsg').innerHTML = "<span style='color:green;'>Sikeres (demó) regisztráció!</span>"; }
+    forgotForm.onsubmit = e => { e.preventDefault(); document.getElementById('forgotMsg').innerHTML = "<span style='color:green;'>Ha az e-mail cím létezik, hamarosan megkapod az új jelszót!</span>"; }
+  </script>
 </body>
 </html>
