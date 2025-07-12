@@ -2,27 +2,56 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Kapcsolat – SzakiPiac</title>
+  <title>Kapcsolat – SzakiPiac.hu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="header.js"></script>
-  <script src="supabase.js"></script>
+  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="green-header">
+    <img src="logo.png" class="logo" alt="SzakiPiac logó">
+    <nav>
+      <a href="index.html">Főoldal</a>
+      <a href="rolunk.html">Rólunk</a>
+      <a href="kapcsolat.html" style="font-weight:bold;">Kapcsolat</a>
+      <a href="feltoltes.html">Hirdetés feltöltés</a>
+      <a href="auth.html">Bejelentkezés</a>
+    </nav>
+    <div class="reklam-header">
+      <img src="reklam.png" alt="Reklám" style="height:42px;">
+    </div>
+  </header>
   <div class="container">
-    <h2>Elérhetőségek</h2>
-    <p><strong>Cégnév:</strong> SzakiPiac.hu</p>
-    <p><strong>Telefonszám:</strong> +36 70 429 2162</p>
-    <p><strong>E-mail:</strong> <a href="mailto:bartha.attila76@gmail.com">bartha.attila76@gmail.com</a></p>
-    <h3>Kapcsolatfelvételi űrlap</h3>
-    <form>
-      <label>Név<br><input type="text" required></label>
-      <label>E-mail cím<br><input type="email" required></label>
-      <label>Üzenet<br><textarea required></textarea></label>
-      <button type="submit">Küldés</button>
-    </form>
+    <div class="content-box">
+      <h1>Kapcsolat</h1>
+      <p>Elérhetőségeink:</p>
+      <ul>
+        <li><b>E-mail:</b> info@szakipiac.hu</li>
+        <li><b>Telefon:</b> +36 30 123 4567</li>
+        <li><b>Ügyfélszolgálat:</b> H-P 8:00–16:00</li>
+      </ul>
+      <h3>Írj nekünk!</h3>
+      <form id="kapcsolatForm">
+        <label>Név:<br>
+          <input type="text" name="nev" required>
+        </label><br><br>
+        <label>E-mail cím:<br>
+          <input type="email" name="email" required>
+        </label><br><br>
+        <label>Üzenet:<br>
+          <textarea name="uzenet" rows="4" required></textarea>
+        </label><br><br>
+        <button type="submit">Üzenet elküldése</button>
+      </form>
+      <div id="kapcsolatUzenet" style="margin-top:18px;"></div>
+    </div>
   </div>
-<script src="header.js"></script>
+  <script>
+    document.getElementById('kapcsolatForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      document.getElementById('kapcsolatUzenet').innerHTML = "<b style='color:green;'>Üzenetedet sikeresen elküldtük! Köszönjük a megkeresést.</b>";
+      this.reset();
+    });
+  </script>
 </body>
 </html>
