@@ -1,72 +1,115 @@
 body {
+  background: #fdfdea;
   margin: 0;
-  background: #fefeee;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
-.header {
-  background: linear-gradient(90deg, #5ee75e 0%, #41e79b 100%);
-  padding: 0;
-  box-shadow: 0 2px 8px #0001;
-}
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
+.green-header {
+  background: linear-gradient(90deg, #41e36c 65%, #3ccc64 100%);
+  color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 72px;
+  padding: 0 0 0 0;
+  height: 68px;
+  box-shadow: 0 1px 8px #0001;
+  border-bottom: 2px solid #e3e3e3;
 }
-.logo {
-  height: 54px;
+.green-header .logo {
+  height: 48px;
   margin-left: 16px;
+  margin-right: 36px;
 }
-.nav a {
-  text-decoration: none;
-  color: #0a3b13;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: 0 20px;
-  transition: color 0.2s;
+.green-header nav {
+  flex: 1;
 }
-.nav a:hover {
+.green-header nav a {
   color: #fff;
+  text-decoration: none;
+  margin: 0 18px;
+  font-size: 1.13em;
+  font-weight: 500;
+  transition: color 0.18s;
+  position: relative;
+  top: -2px;
+}
+.green-header nav a:hover {
+  color: #ffeb00;
+}
+.reklam-header {
+  margin-right: 36px;
 }
 .container {
-  max-width: 1200px;
-  margin: 36px auto 0 auto;
   display: flex;
-  gap: 36px;
+  justify-content: center;
   align-items: flex-start;
+  min-height: 83vh;
 }
-.main-content {
-  flex: 2 1 600px;
+.content-box {
   background: #fff;
-  border-radius: 22px;
-  padding: 36px 36px 36px 36px;
-  box-shadow: 0 4px 16px #0001;
-}
-.reklam-sáv {
-  flex: 0 0 340px;
-  min-height: 350px;
-  margin-left: 16px;
-}
-h1 {
-  font-size: 2.6em;
-  margin-bottom: 10px;
+  border-radius: 15px;
+  margin: 40px 0 40px 0;
+  padding: 38px 40px 30px 40px;
+  box-shadow: 0 4px 22px #41e36c21;
+  width: 100%;
+  max-width: 700px;
 }
 .filters {
-  margin: 18px 0 30px 0;
   display: flex;
-  gap: 14px;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
 }
-input[type="text"], select {
-  font-size: 1.1em;
-  padding: 8px 12px;
-  border: 1.5px solid #ddd;
+.filters input,
+.filters select {
+  padding: 11px 13px;
   border-radius: 8px;
-  min-width: 240px;
+  border: 1.3px solid #ccc;
+  font-size: 1em;
+  min-width: 180px;
 }
-@media (max-width: 1000px) {
-  .container { flex-direction: column; }
-  .reklam-sáv { margin-left: 0; margin-top: 28px; }
+.hirdetesek {
+  margin-top: 15px;
+}
+.hirdetes-kartya {
+  background: #fff;
+  border-radius: 13px;
+  box-shadow: 0 2px 9px #1e7c1721;
+  margin-bottom: 22px;
+  padding: 20px 22px 12px 22px;
+  position: relative;
+  border-left: 5px solid #1be92b30;
+}
+.hirdetes-kartya.kiemelt {
+  border-left: 5px solid #ffb000;
+  box-shadow: 0 2px 15px #ffd58043;
+}
+.hirdetes-kartya .kiemelt-matrica {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  background: #ffc400;
+  color: #222;
+  font-size: 0.92em;
+  border-radius: 8px;
+  padding: 2px 12px 2px 12px;
+  font-weight: bold;
+}
+.hirdetes-kartya img {
+  max-height: 70px;
+  max-width: 90px;
+  border-radius: 9px;
+  margin-right: 8px;
+}
+.hirdetes-kepek {
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
+@media (max-width: 1024px) {
+  .content-box { padding: 28px 6vw 24px 6vw; }
+}
+@media (max-width: 700px) {
+  .green-header { flex-direction: column; align-items: flex-start; height: auto; }
+  .container { padding: 0 0 60px 0; }
+  .content-box { padding: 18px 2vw 20px 2vw; margin: 30px 0 30px 0; }
+  .reklam-header { margin: 18px 0 0 0; }
 }

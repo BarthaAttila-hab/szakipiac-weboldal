@@ -4,160 +4,112 @@
   <meta charset="UTF-8">
   <title>SzakiPiac.hu – Főoldal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      background: #fefeee;
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-    }
-    .header {
-      background: linear-gradient(90deg, #7af79b 0%, #5df8d6 100%);
-      padding: 0;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      box-sizing: border-box;
-    }
-    .header-logo {
-      height: 64px;
-      margin-left: 16px;
-      margin-right: 28px;
-    }
-    .header-nav {
-      display: flex;
-      gap: 40px;
-      font-size: 1.45rem;
-      font-weight: 600;
-    }
-    .header-nav a {
-      color: #20341a;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .header-nav a:hover {
-      color: #29b837;
-    }
-    .main-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 42px;
-      gap: 36px;
-    }
-    .content-card {
-      background: #fff;
-      box-shadow: 0 0 36px #d9f7c7;
-      border-radius: 36px;
-      padding: 60px 32px 46px 32px;
-      max-width: 850px;
-      width: 100%;
-      min-height: 360px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-bottom: 60px;
-    }
-    .content-card h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-top: 0;
-      margin-bottom: 14px;
-      color: #202011;
-    }
-    .content-card p {
-      font-size: 1.25rem;
-      margin-bottom: 32px;
-      margin-top: 0;
-      color: #222;
-    }
-    .filters {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-    .filters input,
-    .filters select {
-      padding: 11px 16px;
-      border-radius: 9px;
-      border: 1.2px solid #ddd;
-      font-size: 1.15rem;
-      min-width: 260px;
-      outline: none;
-      background: #fafbfb;
-    }
-    /* Reklám box */
-    .sidebar-ads {
-      min-width: 310px;
-      max-width: 340px;
-      height: 200px;
-      background: #fffccf;
-      border-radius: 22px;
-      box-shadow: 0 0 22px #efeaae60;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      color: #585a1a;
-      margin-top: 48px;
-      margin-right: 18px;
-      padding: 16px 18px;
-      text-align: center;
-    }
-    .sidebar-ads a {
-      color: #29b837;
-      font-weight: 600;
-      text-decoration: underline;
-    }
-    @media (max-width: 1150px) {
-      .main-container { flex-direction: column; align-items: center; }
-      .sidebar-ads { margin: 32px auto 0 auto; }
-    }
-    @media (max-width: 800px) {
-      .content-card { max-width: 97vw; padding: 14vw 3vw 9vw 3vw; }
-      .sidebar-ads { min-width: 0; max-width: none; width: 97vw; }
-      .header-nav { gap: 16px; font-size: 1.1rem;}
-      .header-logo { height: 38px; }
-      .header { height: 56px; }
-    }
-  </style>
 </head>
 <body>
-  <!-- FEJLÉC -->
-  <div class="header">
-    <img src="logo.png" alt="SzakiPiac.hu" class="header-logo">
-    <nav class="header-nav">
+  <header class="green-header">
+    <img src="logo.png" class="logo" alt="SzakiPiac logó">
+    <nav>
       <a href="index.html">Főoldal</a>
       <a href="rolunk.html">Rólunk</a>
       <a href="kapcsolat.html">Kapcsolat</a>
-      <a href="hirdetes_feltoltes.html">Hirdetés feltöltés</a>
-      <a href="bejelentkezes.html">Bejelentkezés</a>
+      <a href="feltoltes.html">Hirdetés feltöltés</a>
+      <a href="auth.html">Bejelentkezés</a>
     </nav>
-  </div>
-
-  <!-- TARTALOM + REKLÁM SÁV -->
-  <div class="main-container">
-    <div class="content-card">
+    <div class="reklam-header">
+      <img src="reklam.png" alt="Reklám" style="height:42px;">
+    </div>
+  </header>
+  <div class="container">
+    <div class="content-box">
       <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
       <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
       <div class="filters">
-        <input type="text" placeholder="Keresés a hirdetésekben...">
-        <select>
-          <option>Összes kategória</option>
-          <option>Építőipar</option>
-          <option>Kertépítés</option>
-          <option>Lakberendezés</option>
-          <option>Számítástechnika</option>
+        <input type="text" id="kereses" placeholder="Keresés a hirdetésekben...">
+        <select id="kategoriavalaszto">
+          <option value="">Összes kategória</option>
+          <option value="Építőipar">Építőipar</option>
+          <option value="Kertépítés">Kertépítés</option>
+          <option value="Lakberendezés">Lakberendezés</option>
+          <option value="Számítástechnika">Számítástechnika</option>
         </select>
       </div>
-      <!-- Ide jöhet a hirdetés lista vagy további tartalom -->
-    </div>
-    <!-- REKLÁM SÁV (jelenleg helykitöltő, cseréld JS-re ha kell) -->
-    <div class="sidebar-ads">
-      Szabad reklámhely!<br>
-      Itt hirdethet!<br>
-      <a href="reklam_feltoltes.html">Reklám feltöltése</a>
+      <div class="hirdetesek" id="ads-container">
+        <!-- Hirdetések betöltése ide -->
+      </div>
     </div>
   </div>
+  <script>
+    // DEMÓ hirdetés lista (helyettesítsd majd Supabase-el, ha kell)
+    const sampleAds = [
+      {
+        cim: "Festő, tapétázó – gyors, profi munka!",
+        leiras: "Szobafestés, mázolás, tisztasági festés rövid határidővel.",
+        ar: "4500",
+        kategoria: "Építőipar",
+        csomag: "Alap",
+        kepek: []
+      },
+      {
+        cim: "Kertépítés & gyepszőnyeg lerakás",
+        leiras: "Teljes kertépítés, öntözőrendszer, térkövezés.",
+        ar: "12000",
+        kategoria: "Kertépítés",
+        csomag: "Prémium",
+        kepek: []
+      },
+      {
+        cim: "Bútor összeszerelés – lakberendezés",
+        leiras: "Bútorok, polcok összeszerelése, lakberendezési tanácsadás.",
+        ar: "25000",
+        kategoria: "Lakberendezés",
+        csomag: "Extra",
+        kepek: []
+      }
+    ];
+
+    let allAds = sampleAds.slice();
+    const adsContainer = document.getElementById("ads-container");
+    const searchInput = document.getElementById("kereses");
+    const categorySelect = document.getElementById("kategoriavalaszto");
+
+    function renderAds() {
+      const search = searchInput.value.toLowerCase();
+      const selectedCategory = categorySelect.value;
+
+      let ads = allAds.filter(ad => {
+        const text = ((ad.cim || "") + " " + (ad.leiras || "")).toLowerCase();
+        return (search === "" || text.includes(search))
+          && (selectedCategory === "" || ad.kategoria === selectedCategory);
+      });
+
+      let html = "";
+      if (ads.length === 0) html = "<p>Nincs találat.</p>";
+      ads.forEach(ad => {
+        const kiemelt = (ad.csomag === "Prémium" || ad.csomag === "Extra");
+        html += `
+          <div class="hirdetes-kartya${kiemelt ? ' kiemelt' : ''}">
+            ${kiemelt ? `<span class="kiemelt-matrica">KIEMELT</span>` : ""}
+            <strong>${ad.cim || 'Hirdetés címe'}</strong>
+            <p>${ad.leiras || ''}</p>
+            <p><em>${ad.ar ? ad.ar + ' Ft' : ''}</em></p>
+            <div class="hirdetes-kepek"></div>
+            <div style="font-size:0.97em;margin-top:5px;">
+              Kategória: <b>${ad.kategoria}</b>
+              &nbsp;|&nbsp; Csomag: <b>${ad.csomag}</b>
+            </div>
+          </div>
+        `;
+      });
+
+      adsContainer.innerHTML = html;
+    }
+
+    searchInput.addEventListener("input", renderAds);
+    categorySelect.addEventListener("change", renderAds);
+
+    renderAds();
+  </script>
 </body>
 </html>
