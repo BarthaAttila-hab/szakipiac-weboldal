@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Reklám feltöltése</title>
+  <style>
+    body { background: #FFFFF8; }
+    .reklam-doboz { max-width:500px; margin:80px auto; background:#fff; border-radius:32px; padding:48px; box-shadow:0 0 40px #eee; }
+    h1 { color:#23160a; }
+    label, input, button { font-size:18px; }
+    .pp { margin-top:30px; }
+  </style>
+</head>
+<body>
+  <div class="reklam-doboz">
+    <h1>Reklám feltöltése</h1>
+    <form id="reklamForm">
+      <label>Kép (JPG/PNG, max 1MB): <input type="file" id="img" accept="image/png,image/jpeg" required></label><br><br>
+      <label>Cél URL: <input type="url" id="url" required placeholder="https://példa.hu"></label><br><br>
+      <!-- PayPal fizetés gomb helye -->
+      <div id="paypal-button-container" class="pp"></div>
+    </form>
+    <div id="uzenet"></div>
+  </div>
+  <!-- PayPal SDK - e-mail alapú fizetési gomb -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=HUF"></script>
+  <script>
+    let kepAdat = null;
+    document.getElementById('img').addEventListener('change', function(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+      if (f.size > 1_000_000) {
+        alert('Túl nagy a kép (max 1 MB)!');
+        e.target.value = '';
+        return;
+      }
+      const olvaso = new FileReader();
+      olvaso.onload = function(ev) { kepAdat = ev.target.result; }
+      olvaso.readAsDataURL(f);
+    });
+
+    // Ez a gomb e-mail alapú PayPal fizetést készít elő:
+    paypal.Buttons({
+      style: { color: 'gold', shape: 'rect', label: 'pay', height: 45 },
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: '1490', currency_code: 'HUF' },
+            payee: { email_address: 'bartha.attila76@gmail.com' } // <-- IDE ÍRTAM A CÍMEDET
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Kép+link mentése localStorage-be (így jelenik meg a reklámsávban)
+          const url = document.getElementById('url').value;
+          if (!url || !kepAdat) {
+            alert('Adj meg minden adatot és töltsd fel a képet!');
+            return;
+          }
+          localStorage.setItem('aktivreklam', JSON.stringify({ img: kepAdat, url: url }));
+          document.getElementById('uzenet').innerHTML = '<span style="color:green;font-size:18px;">Sikeres fizetés és feltöltés!<br>A reklám hamarosan megjelenik.</span>';
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+</body>
+</html>
