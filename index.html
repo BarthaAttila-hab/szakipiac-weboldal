@@ -17,9 +17,12 @@
       <a href="feltoltes.html">Hirdetés feltöltés</a>
       <a href="auth.html">Bejelentkezés</a>
     </nav>
+    <div class="reklam-header">
+      <img src="reklam.png" alt="Reklám" style="height:42px;">
+    </div>
   </header>
-  <div class="main-wrapper">
-    <div class="content">
+  <div class="container">
+    <div class="content-box">
       <h1>Üdvözlünk a SzakiPiac.hu-n!</h1>
       <p>Válassz szakembert, böngéssz kategóriák és kulcsszavak szerint!</p>
       <div class="filters">
@@ -33,18 +36,12 @@
         </select>
       </div>
       <div class="hirdetesek" id="ads-container">
-        <!-- Itt jelennek meg a hirdetések -->
-      </div>
-    </div>
-    <div class="reklam-box">
-      <img src="reklam.png" alt="Reklám banner">
-      <div style="font-size:1.08em;font-weight:500;color:#232;">
-        Hirdess nálunk – <span style="color:#e8af00;font-weight:bold;">kiemelt helyen</span>!
+        <!-- Hirdetések betöltése ide -->
       </div>
     </div>
   </div>
   <script>
-    // Minta hirdetés lista
+    // DEMÓ hirdetés lista (helyettesítsd majd Supabase-el, ha kell)
     const sampleAds = [
       {
         cim: "Festő, tapétázó – gyors, profi munka!",
@@ -52,7 +49,7 @@
         ar: "4500",
         kategoria: "Építőipar",
         csomag: "Alap",
-        kepek: ["https://i.imgur.com/8bq7JtZ.jpg"]
+        kepek: []
       },
       {
         cim: "Kertépítés & gyepszőnyeg lerakás",
@@ -97,9 +94,7 @@
             <strong>${ad.cim || 'Hirdetés címe'}</strong>
             <p>${ad.leiras || ''}</p>
             <p><em>${ad.ar ? ad.ar + ' Ft' : ''}</em></p>
-            <div class="hirdetes-kepek">
-              ${(ad.kepek || []).map(url => `<img src="${url}" alt="Kép">`).join("")}
-            </div>
+            <div class="hirdetes-kepek"></div>
             <div style="font-size:0.97em;margin-top:5px;">
               Kategória: <b>${ad.kategoria}</b>
               &nbsp;|&nbsp; Csomag: <b>${ad.csomag}</b>
